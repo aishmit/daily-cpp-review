@@ -1,0 +1,91 @@
+# C++ object model — Q&A
+
+### Q: Walk me through what happens at runtime when you call a virtual function through a base reference.
+`id: cpp-om-001` · `from: day 001` · `confidence: low` · `last: —` · `next: day 002`
+
+<details><summary>Answer</summary>
+
+Load the object's vptr (normally at offset 0), index into the class's vtable at the function's slot,
+load that function pointer, and make an indirect call with `this` = the object. On x86-64 at `-O2`:
+`mov rax,[rdi]` then `call/jmp [rax+slot*8]`. That's two dependent loads plus an indirect branch.
+*Follow-up:* the bigger cost is usually lost inlining, then branch mispredicts when call-site types vary.
+</details>
+
+### Q: Why must a polymorphic base class have a virtual destructor? What actually happens if it doesn't?
+`id: cpp-om-002` · `from: day 001` · `confidence: low` · `last: —` · `next: day 002`
+
+<details><summary>Answer</summary>
+
+`delete base_ptr` where the dynamic type is Derived and `~Base` isn't virtual is **undefined
+behavior**. In practice only `~Base` runs, so Derived's members leak, and sized `operator delete`
+frees the wrong size (ASan: `new-delete-type-mismatch`). Rule: public + virtual, or protected +
+non-virtual (then you can't delete through Base at all). `shared_ptr<Base>(new Derived)` happens to
+work because its control block captures the deleter for Derived. `unique_ptr<Base>` doesn't do that.
+</details>
+
+### Q: What does a virtual call inside a constructor dispatch to, and why?
+`id: cpp-om-003` · `from: day 001` · `confidence: low` · `last: —` · `next: day 002`
+
+<details><summary>Answer</summary>
+
+To the version in the class whose constructor (or destructor) is currently running. During
+`Base()`, the Derived part isn't constructed yet, and the vptr is set to Base's vtable. Each
+constructor sets the vptr to its own class's vtable as it runs, and each destructor resets it on the
+way down. Calling a pure virtual function this way is UB, often "pure virtual method called" + abort.
+</details>
+
+### Q: What is object slicing? Give a case where it silently changes behavior.
+`id: cpp-om-004` · `from: day 001` · `confidence: low` · `last: —` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+Copying a Derived into a Base *by value* copies only the Base subobject. The copy's vptr is Base's,
+so virtual calls hit Base's implementations. Example: `void f(Animal a)` called with a `Dog`
+prints `...` instead of `woof`. Fixes: pass by reference or pointer, make bases non-copyable or
+abstract, or use type erasure / `clone()`.
+</details>
+
+### Q: sizeof a class with one int and one virtual function, on x86-64? With two virtual functions?
+`id: cpp-om-005` · `from: day 001` · `confidence: low` · `last: —` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+16 both times. 8 bytes for the vptr plus 4 for the int, padded to 8-byte alignment. The vptr is per
+*object*; the number of virtual functions only changes the size of the per-*class* vtable.
+</details>
+
+### Q: In `struct AB : A, B`, both bases polymorphic: what happens when you convert `AB*` to `B*`? What's a thunk?
+`id: cpp-om-006` · `from: day 001` · `confidence: low` · `last: —` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+The pointer is **adjusted** by the B subobject's offset inside AB (e.g. +16), so `(void*)pb != (void*)&ab`.
+Each polymorphic base subobject has its own vptr. If AB overrides a function declared in B, B's
+vtable-in-AB points at a **thunk**: a tiny stub that adjusts `this` from the B subobject back to the
+full AB object and then jumps to `AB::f`. (`static_cast` handles null correctly; `reinterpret_cast`
+doesn't adjust at all, which is a bug.)
+</details>
+
+### Q: When can the compiler devirtualize a call? How do you help it?
+`id: cpp-om-007` · `from: day 001` · `confidence: low` · `last: —` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+When it can prove the dynamic type: the object is a local or value of known type; the class or
+function is `final`; whole-program/LTO analysis sees one implementation; or speculatively (compare
+the vptr, inline the likely target, fall back to an indirect call). Help it with `final`, internal
+linkage, LTO, and, on hot paths, by using static polymorphism (templates/CRTP) or `std::variant`
+instead of virtual functions.
+</details>
+
+### Q: How does type erasure (std::function, std::any) give you polymorphism without inheritance?
+`id: cpp-om-008` · `from: day 001` · `confidence: low` · `last: —` · `next: day 004`
+
+<details><summary>Answer</summary>
+
+Store the concrete object type-erased (`void*` or an inline buffer) plus a pointer to a hand-built
+table of function pointers (invoke/copy/move/destroy) generated per concrete type, usually from a
+template. Value semantics, any type that fits the interface, no common base class. Small-buffer
+optimization stores small objects inline to avoid heap allocation; moves then have to move-construct
+rather than steal a pointer.
+</details>
