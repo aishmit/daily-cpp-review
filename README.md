@@ -8,6 +8,9 @@ last run, then writes that evening's material into this repo. Fri–Sun are off.
 
 ## A day = ~30 min core (+ optional deep dive)
 
+> **C++ only for now (2026-10-01):** the design rows below are paused and replaced by a ~10 min
+> "C++ by hand" syntax drill. They come back when you ask for them.
+
 | Block | Time | Language | What |
 |---|---|---|---|
 | Warm-up recall | 3 min | — | 3 questions pulled from `qa/` (spaced repetition) |

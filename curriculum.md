@@ -1,5 +1,8 @@
 # Curriculum — 10 weeks, Mon–Thu (40 days)
 
+> **Design track paused (2026-10-01):** C++ only for now; the Design column below is kept for when
+> he resumes it. Its time slot is a "C++ by hand" syntax drill instead (see `prompts/daily-run.md`).
+
 Two tracks run in parallel every day. No sessions Fri–Sun. This is a plan, not a contract: the daily
 run reorders, repeats, or splits days based on `progress.md` (weak areas get remediation days; strong
 areas compress). If the plan slips, the run extends it rather than cramming.

@@ -14,7 +14,7 @@ namespace day001 {
 inline int g_buffered_destroyed = 0;
 
 struct Sink {
-    ~Sink() = default;  // TODO(A)
+    virtual ~Sink() = default;
     virtual void write(const char* msg) = 0;
 };
 
@@ -61,8 +61,32 @@ struct ShapeVTable {
 // (it converts to a plain function pointer) that casts `self` back to the
 // concrete type, e.g. [](const void* s) { return static_cast<const Circle*>(s)->...; }
 // Use std::numbers::pi for the circle.
-inline constexpr ShapeVTable kCircleVTable = {nullptr, nullptr, nullptr, nullptr};
-inline constexpr ShapeVTable kRectVTable   = {nullptr, nullptr, nullptr, nullptr};
+inline constexpr ShapeVTable kCircleVTable = {
+    [](const void* s) {
+        const Circle* c = static_cast<const Circle*>(s); return std::numbers::pi*c->r*c->r;
+    },
+    [](const void*) {
+        return "circle";
+    },
+    [](const void* s) -> void* {
+        const Circle* c = static_cast<const Circle*>(s); return new Circle(*c);
+    },
+    [](void* s) {
+        delete static_cast<Circle*>(s);  // runs ~Circle, then frees the memory
+    }};
+inline constexpr ShapeVTable kRectVTable   = {
+    [](const void* s) {
+        const Rect* r = static_cast<const Rect*>(s); return r->w*r->h;
+    },
+    [](const void*) {
+        return "rect";
+    },
+    [](const void* s) -> void* {
+        const Rect* r = static_cast<const Rect*>(s); return new Rect(*r);
+    },
+    [](void* s) {
+        delete static_cast<Rect*>(s);
+    }};
 
 class Shape {
 public:
@@ -74,14 +98,20 @@ public:
     //  - move ctor: steal the object; leave `other` empty (obj_ == nullptr). Must be noexcept.
     //  - assignment: one copy-and-swap operator handles both copy and move assignment.
     //  - dtor: destroy through the vtable; a moved-from Shape owns nothing.
-    Shape(const Shape& other) : vptr_(other.vptr_), obj_(nullptr) {}
-    Shape(Shape&& other) noexcept : vptr_(other.vptr_), obj_(nullptr) {}
-    Shape& operator=(Shape other) noexcept { (void)other; return *this; }
-    ~Shape() {}
+    Shape(const Shape& other) : vptr_(other.vptr_), obj_(other.vptr_ -> clone ( other.obj_ )) {}
+    Shape(Shape&& other) noexcept : vptr_(other.vptr_), obj_(other.obj_) { other.obj_ = nullptr; }
+    Shape& operator=(Shape other) noexcept {
+        std::swap(vptr_, other.vptr_);
+        std::swap(obj_, other.obj_);
+        return *this;  // `other` now holds our old object; its destructor frees it at the `}`
+    }
+    ~Shape() {
+        if (obj_) vptr_->destroy(obj_);  // a moved-from Shape owns nothing
+    }
 
     // TODO(B3): dispatch through vptr_.
-    double area() const { return 0.0; }
-    const char* name() const { return ""; }
+    double area() const { return vptr_->area(this->obj_); }
+    const char* name() const { return vptr_->name(this->obj_); }
 
     bool empty() const { return obj_ == nullptr; }
 
