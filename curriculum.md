@@ -1,68 +1,42 @@
-# Curriculum — 10 weeks, Mon–Thu (40 days)
+# Curriculum — Citadel Securities SWE prep · 8 weeks · Mon–Thu · 60 min/session
 
-> **Design track paused (2026-10-01):** C++ only for now; the Design column below is kept for when
-> he resumes it. Its time slot is a "C++ by hand" syntax drill instead (see `prompts/daily-run.md`).
+**Target:** pass Citadel Securities technical screens and superday (experienced SWE, ~6 YOE).
+Built from public 2025–2026 interview reports (see `research/citadel-securities.md`).
+**Coding language for interviews: Python.** C++ is studied for the debugging round and
+systems questions, not for writing interview solutions.
 
-Two tracks run in parallel every day. No sessions Fri–Sun. This is a plan, not a contract: the daily
-run reorders, repeats, or splits days based on `progress.md` (weak areas get remediation days; strong
-areas compress). If the plan slips, the run extends it rather than cramming.
+## Every session (60 min)
 
-Legend: **M** = mock interview day (no new material; timed problem + debrief). Mocks land on the
-Thursday that closes every second week.
-
-## Phase 1 — Rebuild the C++ core (Weeks 1–2)
-
-| Day | Systems (C++) | Design (Python) |
+| Block | Min | What |
 |---|---|---|
-| 001 | Virtual functions, vtables/vptr, virtual dtors, slicing, override/final | Interview framework + limit order book: requirements & core ops |
-| 002 | Object lifetime, rule of 0/3/5, copy elision, value categories & move semantics | Order book internals: price levels, FIFO queues, O(1) cancel |
-| 003 | RAII + smart pointers: implement `unique_ptr`; `shared_ptr` control block | Matching engine: price-time priority, partial fills, event output |
-| 004 | Templates I: deduction, class templates, full/partial specialization | Order gateway + pre-trade risk checks (limits, fat-finger, throttles) |
-| 005 | Templates II: SFINAE → `enable_if` → concepts; type traits | Sequencer & deterministic replay (event sourcing) |
-| 006 | Variadic templates, fold expressions, perfect forwarding | Market data feed handler: seq numbers, gaps, snapshot+incremental recovery |
-| 007 | CRTP & static polymorphism vs virtual (measure it); `constexpr` | Pub/sub fan-out + tick store for market data |
-| 008 | **M** — Mock #1 (systems) | **M** — Mock #1 (design: order book end-to-end) |
+| Warm-up recall | 5 | 3 questions from `qa/` (spaced repetition) |
+| **DSA** | 30 | 1–2 LeetCode problems (Python, timed), picked from this week's pattern. Log them in `notes.md`. |
+| **Track block** | 25 | **Even sessions → System design** (`design/`, Python). **Odd sessions → C++ & systems** (`systems/`, C++). Normally that's Mon/Wed vs Tue/Thu. |
 
-## Phase 2 — Memory & OS (Weeks 3–4)
+Split ≈ DSA 50% · Design 25% · C++/systems 25%. Every 4th session adds a 5-min behavioral story (in `notes.md`).
+When the screen date is known, the daily run compresses this plan so a mock lands 3–4 days before it.
 
-| Day | Systems (C++) | Design (Python) |
-|---|---|---|
-| 009 | Memory hierarchy, cache lines, locality (benchmark it) | Back-pressure, flow control, idempotency |
-| 010 | Alignment, padding, struct layout, AoS vs SoA, false sharing | Real-time position, PnL & risk aggregation |
-| 011 | Custom allocators: arena + pool; placement new | Replicated state & consensus basics (Raft at interview depth) |
-| 012 | Processes vs threads, context switches, syscall cost | Reference/security master + caching & invalidation |
-| 013 | Virtual memory, page tables, TLB, huge pages, page faults | Backtesting platform |
-| 014 | `mmap`, shared-memory IPC; scheduling, CPU pinning, NUMA | EOD batch pipeline & job scheduling |
-| 015 | Remediation day (weak areas from weeks 1–4) | Remediation day |
-| 016 | **M** — Mock #2 | **M** — Mock #2 |
+## Week by week
 
-## Phase 3 — Concurrency & low latency (Weeks 5–6)
+Day 001 (Oct 1, done): virtual dispatch & vtables, from the earlier HRT-focused plan. The new plan starts at Day 002 on Mon Oct 19.
 
-| Day | Systems (C++) | Design (Python) |
-|---|---|---|
-| 017 | Mutex, condvar, deadlock, lock ordering | Low-latency async binary logging |
-| 018 | Atomics & memory ordering (acquire/release/seq_cst) | Monitoring, alerting, kill switches |
-| 019 | SPSC lock-free ring buffer (TSan) | Exchange throttles & rate limiting |
-| 020 | MPMC, ABA; seqlock & read-mostly patterns | Failover, hot standby, split brain |
-| 021 | I/O models: blocking, `epoll`, `io_uring`; non-blocking sockets, UDP multicast | Smart order router; colocation & multi-venue |
-| 022 | Kernel bypass concepts (DPDK, Onload/ef_vi), HW timestamping | Market-making system (quote engine + hedger) |
-| 023 | Measuring latency: `rdtsc`, histograms, tail latency, coordinated omission | Historical data lake + research compute grid |
-| 024 | **M** — Mock #3 | **M** — Mock #3 |
+| Wk | Sessions | DSA pattern (LeetCode) | Design (even) | C++ & systems (odd) |
+|---|---|---|---|---|
+| 1 | 002–005 | Arrays/hashing, sliding window, "stock" patterns | 002 Interview framework + order book (price-time, cancel) · 004 Matching engine with heaps ("simple stock exchange") | 003 Object lifetime by hand: ctors/dtors, RAII, rule of 0/3/5 (re-test Day 001's destroy / `~Shape` / `operator=`) · 005 Move semantics, value categories |
+| 2 | 006–009 | Stacks, monotonic stack/deque, heaps (top-K, k-way merge, median of stream) | 006 Conflating quote queue + market-data fan-out · 008 Streaming top-K / "top-ten trades" query | 007 `unique_ptr` vs `shared_ptr` internals (control block, atomic refcount) · 009 STL internals: `vector` growth, iterator invalidation, `unordered_map` |
+| 3 | 010–013 | Intervals, binary search, BFS/shortest path (Word Ladder family) | 010 Market-data feed handler: sequence gaps, snapshot recovery · 012 Median price across exchange feeds per timestamp | 011 **C++ debugging drill #1** (dangling refs, UB, overflow, missing virtual dtor) · 013 Threads vs processes, context switches, IPC |
+| 4 | 014–017 | Graphs: weighted BFS/DFS (currency conversion), topo sort, Dijkstra | 014 High-throughput messaging between trading components (pub/sub, back-pressure) · 016 Remediation (weakest design topic so far) | 015 Mutex + condvar → bounded producer-consumer queue · **017 MOCK SCREEN** (45-min CoderPad DSA + resume deep-dive) |
+| 5 | 018–021 | Bellman-Ford (arbitrage cycle), union-find, tries (autocomplete, trie+heap) | 018 Position & PnL service · trade-reconciliation library contract · 020 Order gateway: pre-trade risk + rate limiting | 019 Atomics & memory ordering, spinlock · 021 Lock-free SPSC ring buffer |
+| 6 | 022–025 | Dynamic programming: stock buy/sell family, 1-D/2-D DP | 022 Tick store / time-series storage · 024 Log aggregation across colos (multicast), replay & determinism | 023 Caches, cache lines, false sharing, branch prediction · 025 Virtual memory: cache miss vs page fault |
+| 7 | 026–029 | Design-style problems: LRU/LFU, time-based KV, hit counter, order book | 026 Failover, hot standby, recovery · 028 **MOCK DESIGN** (order book service at ~1M updates/s) | 027 Networking: TCP vs UDP, multicast packet loss, latency spikes · 029 **C++ debugging drill #2** (data races with TSan) |
+| 8 | 030–033 | Mixed timed sets (2 problems / 45 min) | 030 **MOCK SUPERDAY** design round · 032 Remediation (weakest design topic) | 031 Templates essentials, `std::variant`/`std::any` internals, rapid-fire trivia · **033 MOCK SUPERDAY** (coding + systems + behavioral) |
 
-## Phase 4 — Internals & performance (Weeks 7–8)
-
-| Day | Systems (C++) | Design (Python) |
-|---|---|---|
-| 025 | `vector` growth, iterator invalidation, exception guarantees | Distributed cache |
-| 026 | `unordered_map` internals → write an open-addressing flat map | Kafka-like log / message queue |
-| 027 | SSO/small-buffer optimization, `string_view`, `span`, intrusive containers | Clock sync (NTP vs PTP), event ordering |
-| 028 | Cache-friendly order book in flat arrays (benchmark vs `std::map`) | Safe config & deploys in trading; drop copy & reconciliation |
-| 029 | Branch prediction, inlining, `[[likely]]`, reading assembly; SIMD basics | Options pricing service at scale |
-| 030 | Exceptions cost, `noexcept`; UB catalogue; linking, ODR, static init order | Alt-data ingestion pipeline |
-| 031 | Remediation day | Remediation day |
-| 032 | **M** — Mock #4 | **M** — Mock #4 |
-
-## Phase 5 — Interview mode (Weeks 9–10)
-
-Days 033–040: alternate **remediation** (from weak areas in `progress.md`, plus HRT/PDT-style
-problems: cache/latency/concurrency depth, rapid C++ trivia) and **mocks** (034, 036, 038, 040).
+## Behavioral bank (sessions 005, 009, 013…, one story each — STAR, ≤ 2 min spoken)
+1. Most complex system you built in the past year: architecture and trade-offs
+2. A production mistake you made and how you resolved it
+3. Isolating the root cause of an ambiguous bug in a critical system
+4. A technical compromise made to meet a deadline
+5. Handling ambiguous requirements
+6. Why market making / Citadel Securities rather than big tech, or staying at Bloomberg
+7. Disagreeing with a senior engineer or PM
+8. Your questions for them (team, on-call, bonus structure, how success is measured)

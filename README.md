@@ -1,59 +1,46 @@
-# daily-cpp-review
+# daily-cpp-review → Citadel Securities prep
 
-A weekday learning loop to get interview-ready for SWE roles at top hedge funds / prop shops
-(north star: **HRT, PDT**; also Citadel / Citadel Securities, Jane Street, Two Sigma, Jump, Millennium).
+A Mon–Thu, 60-minute loop to pass the **Citadel Securities** SWE screens and superday.
+Coding rounds in **Python**; C++ studied for the debugging round and systems questions.
+Plan: `curriculum.md` · What's been asked: `research/citadel-securities.md`.
 
-Every **Mon–Thu at ~6 PM ET** a scheduled Claude run (Opus) reviews whatever you pushed since the
-last run, then writes that evening's material into this repo. Fri–Sun are off.
+Every **Mon–Thu at ~6 PM ET** a scheduled Claude run reviews what you pushed, then publishes
+(or assigns) that evening's session. Fri–Sun are off.
 
-## A day = ~30 min core (+ optional deep dive)
+## A session = 60 min
+| Block | Min | What |
+|---|---|---|
+| Warm-up | 5 | 3 recall questions from `qa/` |
+| DSA | 30 | 1–2 LeetCode problems in Python, timed. Log each one in `notes.md` |
+| Track | 25 | Even days: system design (`design/`, Python) · Odd days: C++ & systems (`systems/`, C++) |
 
-> **C++ only for now (2026-10-01):** the design rows below are paused and replaced by a ~10 min
-> "C++ by hand" syntax drill. They come back when you ask for them.
-
-| Block | Time | Language | What |
-|---|---|---|---|
-| Warm-up recall | 3 min | — | 3 questions pulled from `qa/` (spaced repetition) |
-| Systems lesson | 7 min | C++ | C++ / memory / OS / concurrency / low-latency concept |
-| Systems challenge | 8 min | C++ | compiled, tested under ASan + UBSan (TSan on concurrency days) |
-| Design lesson | 5 min | — | architecture for trading/finance systems |
-| Design challenge | 7 min | Python | build the core component of the design, with tests |
-| Deep dive (optional) | 15–45 min | either | stretch problem + reading list |
-
-The Thursday closing every second week is a **mock interview day** (Days 008, 016, 024, 032, then
-every other day in weeks 9–10). You can also run `/mock` in Claude Code any time.
+Every 4th session: one behavioral story too. Mocks: Day 017 (screen), 028 (design), 030/033 (superday).
 
 ## Your loop
-
 ```bash
 git pull
-cat days/NNN/lesson.md           # read it (or open in your editor)
-./run.sh NNN                     # build + test systems (C++) and design (Python)
-# ... solve the TODOs, write days/NNN/notes.md (answers to the recall + reflection) ...
+open days/NNN/lesson.md          # or your editor
+# DSA: solve the LeetCode problems listed in the lesson; optional: save solutions in days/NNN/dsa/
+./run.sh NNN                     # tests for the track block
+# write days/NNN/notes.md (template at the bottom of each lesson)
 git add -A && git commit -m "day NNN" && git push
 ```
+The next evening's run reads your code, LeetCode log and notes, writes `days/NNN/review.md`,
+updates `progress.md` (weak patterns and topics), and files misses in `qa/`.
 
-The next evening's run reads your code + `notes.md`, writes `days/NNN/review.md`,
-updates `progress.md` (weak areas), and files new questions in `qa/`.
+## Claude Code in this repo
+`/hint` escalating hints (works for LeetCode too: paste the problem) · `/review` strict interviewer review ·
+`/explain <topic>` deep dive with a runnable demo · `/mock screen|design|superday|trivia`.
+Claude won't write your solutions unless you ask twice.
 
 ## Layout
-
 ```
-CLAUDE.md            rules for Claude Code in this repo (tutor mode — it won't just write your code)
-curriculum.md        10-week, two-track syllabus (adapts based on progress)
-progress.md          day log, weak areas, recall schedule — the loop's memory
-qa/                  question & answer bank by topic (answers collapsed)
-days/NNN/            lesson.md, systems/ (C++), design/ (Python), notes.md (you), review.md (Claude)
-common/              tiny header-only test harness + python test runner
-prompts/daily-run.md the full instructions the scheduled run follows
-run.sh               build/test a day
-.claude/commands/    /hint, /review, /mock, /explain slash commands for Claude Code
+curriculum.md          8-week plan (adapts to your screen date and weak areas)
+progress.md            status, schedule, DSA log, weak areas, calibration notes
+research/              what Citadel Securities has asked (sources inside)
+qa/                    question & answer bank by topic, spaced recall
+days/NNN/              lesson.md, design/ or systems/, dsa/ (optional), notes.md (you), review.md (Claude)
+common/                tiny C++ test harness + Python test runner
+prompts/daily-run.md   what the scheduled run does
+run.sh                 build + test a day
 ```
-
-## Working with Claude Code here
-
-- `/hint` — escalating hints (concept → approach → pseudocode). Never full code.
-- `/review` — review your current solution like a strict interviewer would.
-- `/explain <topic>` — deep explanation with a compiled demo you can poke at.
-- `/mock` — timed mock interview (systems, design, or mixed).
-- Ask for a solution explicitly ("show me the solution") and it will — after one more nudge.

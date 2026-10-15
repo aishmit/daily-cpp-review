@@ -1,5 +1,7 @@
 # Day 001 — Virtual dispatch from the inside · Order book fundamentals
 
+> **Note (2026-10-15):** the design half of this day moved to **Day 002** (`days/002/design/`) when the plan was restarted for Citadel Securities. The C++ half below is done.
+
 > **Why today:** "How does a virtual call work?" is the most common opener in C++ interviews at
 > HRT/PDT-tier shops, and the follow-ups ("what does it cost?", "when can the compiler remove it?")
 > separate application C++ from systems C++. On the design side, the limit order book is the

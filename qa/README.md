@@ -3,8 +3,8 @@
 One file per topic. Every lesson adds questions; every miss in review/mock adds or re-flags one.
 The daily run picks 3 warm-up questions per day: overdue `low` first, then `med`, then random `high`.
 
-Files: `cpp-object-model.md`, `cpp-templates.md`, `cpp-memory-and-lifetime.md`, `memory-hardware.md`,
-`os.md`, `concurrency.md`, `networking-low-latency.md`, `system-design.md`, `trading-domain.md`
+Files: `dsa-patterns.md`, `system-design.md`, `cpp-object-model.md`, `cpp-memory-and-lifetime.md`,
+`cpp-templates.md`, `concurrency.md`, `os-memory.md`, `networking.md`, `behavioral.md`
 (created on first use).
 
 ## Entry format

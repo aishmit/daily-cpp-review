@@ -1,13 +1,13 @@
-"""Day 001 — Design challenge: a passive limit order book (no matching yet).
+"""Day 002 — Design challenge: a passive limit order book (no matching yet).
 
-Run: ./run.sh 001 design
+Run: ./run.sh 002
 
 Rules (this is the spec — read it like an interviewer handed it to you):
 - Prices are integer ticks (never floats). Quantities are positive ints.
 - Sides are "B" (bid/buy) and "S" (ask/sell).
 - Price-time priority: better price first; at the same price, earlier order first.
 - This book is *post-only*: an order that would cross the book (bid >= best ask, or
-  ask <= best bid) is rejected. Matching arrives on Day 003.
+  ask <= best bid) is rejected. Matching arrives on Day 004.
 - add() rejects: duplicate order id, qty <= 0, price <= 0, bad side, or would-cross.
 - modify(order_id, new_qty):
     * new_qty <= 0 → rejected (use cancel)
@@ -17,7 +17,7 @@ Rules (this is the spec — read it like an interviewer handed it to you):
 - Empty price levels must disappear (depth never shows a level with 0 qty).
 
 Today: correctness first. Don't worry about complexity yet — but write down in notes.md
-what the complexity of each operation is in your version. Day 002 makes cancel O(1).
+what the complexity of each operation is in your version. Day 004 makes cancel O(1).
 """
 from __future__ import annotations
 
