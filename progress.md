@@ -10,6 +10,7 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 - Interview language: **Python**. C++ for the debugging round and systems knowledge.
 - Tracks alternate: even days = system design (Python), odd days = C++ & systems.
 - Current session: **002**, pre-written, for Mon 2026-10-19. The run writes 003 onward.
+- Routine push check: OK (2026-10-15, new Claude Code routine with repo source).
 - Day 001 (Oct 1, vtables) is done. Note from his notes: "this is hard… so far behind"; confidence 1/5.
 
 ## Schedule
