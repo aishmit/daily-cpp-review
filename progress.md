@@ -9,7 +9,9 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 - Cadence: Mon–Thu, 60 min (5 recall · 30 DSA · 25 track). No Fri–Sun. Skip US holidays (Thanksgiving Thu Nov 26).
 - Interview language: **Python**. C++ for the debugging round and systems knowledge.
 - Tracks alternate: even days = system design (Python), odd days = C++ & systems.
-- Current session: **002**, pre-written, for Mon 2026-10-19. The run writes 003 onward.
+- Current session: **002** (Mon 2026-10-19), pre-written; checked by the 2026-10-19 run: stub fails 0/12,
+  a private reference passes 12/12, links verified (LeetCode via search index; direct fetch is blocked
+  by the routine's network policy). Nothing to review: Day 001 is done and has no pending review. The run writes 003 onward.
 - Routine push check: OK (2026-10-15, new Claude Code routine with repo source).
 - Day 001 (Oct 1, vtables) is done. Note from his notes: "this is hard… so far behind"; confidence 1/5.
 
