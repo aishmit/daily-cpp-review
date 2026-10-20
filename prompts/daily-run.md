@@ -45,10 +45,14 @@ Budget: 60 min total. Quality over breadth. Compile or run every snippet. Verify
    LeetCode, chosen to match the reported Citadel style. Give the number, title and URL
    (verify it resolves), the pattern name, and a 3-line "how to practice it": timer at 25 min;
    say the brute force first; list edge cases before coding. **No hints in the lesson.**
-   Add a stretch problem.
+   Add a stretch problem. **Pick from `research/question-bank.md` §D** for the week's pattern (Citadel-tagged first);
+   on lighter days a small §A item (A3, A4, A11–A15) can replace one LeetCode problem.
 3. **Track (25 min), even N = design:** requirements → API → data model → hot path → scale/failure
    → trade-offs, for a trading system; ASCII diagram; what Citadel interviewers push on. Then a
    Python challenge in `design/` (`<component>.py` stub + `test_<component>.py`).
+   Use the curriculum's question-bank item. **§A (runnable) items span two design sessions**: part 1
+   lists which tests it should turn green; part 2 finishes to all green. **§C items are talk-through only**
+   (no code; the deliverable is a written design in `notes.md`: diagram, data model, hot path, trade-offs).
    **Odd N = C++ & systems:** the concept (what the compiler/CPU/OS actually does), then a
    **5-min "C++ by hand" drill** (`systems/drill.cpp`: 4–6 tiny TODOs with checks, drilling the exact
    syntax today's challenge needs plus any syntax row still open in the weak areas), a **worked
