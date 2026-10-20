@@ -39,3 +39,15 @@ Fairness. Otherwise a trader could hold a tiny order at the front of a level and
 jumping everyone who committed size earlier. Decreasing only gives up claim, so it keeps its place.
 In an implementation, an increase = remove + append to the tail of the level.
 </details>
+
+### Q: What is a "price level" in an order book, and what does "moves to the back of its price level" mean?
+`id: sd-005` · `from: day 002` · `confidence: low` · `last: 2026-10-19 (thought the book was sorted on price only; didn't know what "back of a level" meant)` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+A price level is every resting order on one side at one price, kept in a FIFO queue (arrival order).
+Priority is two-level: first by price (best level first: lowest ask, highest bid), then by time within
+the level. "Back of the level" = the end of that queue. Example: bids at 99 = [#1 (10), #5 (1)];
+modify #1 up to 20 → [#5, #1 (20)]. Data model: per side, price → FIFO of orders, plus a way to find the
+best price; and a map order_id → (side, price, qty) for cancel/modify.
+</details>

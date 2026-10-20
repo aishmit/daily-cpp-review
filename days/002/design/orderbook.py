@@ -1,5 +1,4 @@
 """Day 002 — Design challenge: a passive limit order book (no matching yet).
-
 Run: ./run.sh 002
 
 Rules (this is the spec — read it like an interviewer handed it to you):
@@ -21,28 +20,89 @@ what the complexity of each operation is in your version. Day 004 makes cancel O
 """
 from __future__ import annotations
 
+import heapq
+
+class Order:
+    def __init__(self, idd, side, price, qty):
+        self.idd = idd
+        self.side = side
+        self.price = price
+        self.qty = qty
 
 class OrderBook:
     def __init__(self) -> None:
-        # TODO: choose your data structures. (Think: how do you find the best price?
-        # how do you find an order by id? how do you keep FIFO within a price?)
+        self.asks = []
+        self.bids = []
+        self.asks_by_price = dict()
+        self.bids_by_price = dict()
+        self.orders = dict()
+
         pass
 
     def add(self, order_id: int, side: str, price: int, qty: int) -> bool:
-        raise NotImplementedError
+
+        if price <= 0 or qty <= 0:
+            return False
+        
+        if self.orders.get(order_id):
+            return False
+
+        order = Order(order_id, side, price, qty)
+        self.orders[order_id] = order
+
+        if side == 'S':
+            if (self.best_bid() and self.best_bid() >= price):
+                return False
+            
+            if not self.asks_by_price.get(price):
+                self.asks_by_price[price] = dict()
+                heapq.heappush(self.asks, price)
+
+        
+            self.asks_by_price[price][order_id] = qty
+
+        elif side == 'B':
+            if (self.best_ask() and self.best_ask() <= price):
+                return False
+
+            if not self.bids_by_price.get(price):
+                self.bids_by_price[price] = dict()
+                heapq.heappush(self.bids, -price)
+        
+            self.bids_by_price[price][order_id] = qty
+
+        else:
+            return False
+        
+        return True
 
     def cancel(self, order_id: int) -> bool:
         """Remove a resting order. False if unknown."""
         raise NotImplementedError
 
+
+    """
+    - modify(order_id, new_qty):
+    * new_qty <= 0 → rejected (use cancel)
+    * new_qty < current qty → reduce in place, KEEPS queue priority
+    * new_qty > current qty → LOSES priority (moves to back of its price level)
+    * new_qty == current qty → no-op, returns True
+    """
     def modify(self, order_id: int, new_qty: int) -> bool:
         raise NotImplementedError
 
     def best_bid(self) -> int | None:
-        raise NotImplementedError
+        if not self.bids:
+            return None
+        price = -1*self.bids[0]
+        return price
+            
 
     def best_ask(self) -> int | None:
-        raise NotImplementedError
+        if not self.asks:
+            return None
+        price = self.asks[0]
+        return price
 
     def depth(self, side: str, levels: int) -> list[tuple[int, int]]:
         """Top `levels` price levels on `side`, best first, as (price, total_qty)."""

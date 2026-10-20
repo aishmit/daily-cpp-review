@@ -1,7 +1,7 @@
 # C++ object model — Q&A
 
 ### Q: Walk me through what happens at runtime when you call a virtual function through a base reference.
-`id: cpp-om-001` · `from: day 001` · `confidence: low` · `last: 2026-10-01 (couldn't explain the mechanism)` · `next: day 002`
+`id: cpp-om-001` · `from: day 001` · `confidence: low` · `last: 2026-10-19 recall: partial again — vptr in first 8 bytes right; said the slot points to the base reference's version (wrong: the object's real class)` · `next: day 003`
 
 <details><summary>Answer</summary>
 
@@ -24,7 +24,7 @@ work because its control block captures the deleter for Derived. `unique_ptr<Bas
 </details>
 
 ### Q: What does a virtual call inside a constructor dispatch to, and why?
-`id: cpp-om-003` · `from: day 001` · `confidence: low` · `last: 2026-10-01 (predict.cpp miss)` · `next: day 002`
+`id: cpp-om-003` · `from: day 001` · `confidence: med` · `last: 2026-10-19 recall: right (calls Base's), but no "why"` · `next: day 005`
 
 <details><summary>Answer</summary>
 
@@ -127,7 +127,7 @@ vtable and starts at `~Derived`. Without it, the compiler only sees `Base*` and 
 </details>
 
 ### Q: You have a `const void*` that you know points at a `Circle`. Which cast gets you back a usable pointer, and why not the others?
-`id: cpp-om-012` · `from: day 001` · `confidence: low` · `last: 2026-10-01 (wrote reinterpret_cast<Circle>(s))` · `next: day 002`
+`id: cpp-om-012` · `from: day 001` · `confidence: med` · `last: 2026-10-19 recall: static_cast right; didn't give the exact form static_cast<const Circle*>(s)` · `next: day 005`
 
 <details><summary>Answer</summary>
 
@@ -137,4 +137,27 @@ promising the object really is a `Circle`. Target a *pointer* type (`Circle*`, n
 `void*` → `T*`, but it's the "reinterpret raw bits" cast, kept for unrelated pointer types and integers.
 Using it here tells a reviewer you don't know which cast fits. *Follow-up:* `dynamic_cast` needs a
 polymorphic type and checks at runtime; it can't start from `void*`.
+</details>
+
+### Q: What's the difference between `struct` and `class` in C++?
+`id: cpp-om-013` · `from: day 001 (asked 2026-10-15)` · `confidence: low` · `last: 2026-10-15 (switched struct→class, hit "deleted function '~Dog'")` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+Only the defaults. `struct`: members are `public` and inheritance is `public` by default. `class`: both are
+`private` by default. Otherwise they're identical (both can have virtuals, ctors, private members).
+Classic trap: `class Animal { virtual ~Animal() = default; };` makes the destructor private, so a derived
+class can't call it, and its destructor becomes deleted. `class Dog : Animal` is private inheritance,
+so `Animal* a = &dog;` won't compile. Convention: `struct` for plain data, `class` when there are invariants.
+</details>
+
+### Q: `int x = -6; size_t y = 0;` What does `x > y` evaluate to, and why? How do you avoid it?
+`id: cpp-om-014` · `from: day 002 (LeetCode 121, 2026-10-15)` · `confidence: low` · `last: 2026-10-15 (used size_t for profit; -6 became 18446744073709551610)` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+`true`. When you compare (or assign) a signed `int` with an unsigned `size_t`, the `int` is converted to
+unsigned first. -6 wraps around to 2^64 − 6 = 18446744073709551610. That's well-defined, not UB, but
+silently wrong. Use `size_t` only for sizes and indices; use signed types (`int`, `long long`) for
+anything that can go negative (differences, profits). `-Wall -Wextra` warns: `-Wsign-compare`.
 </details>

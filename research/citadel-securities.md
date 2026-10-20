@@ -40,6 +40,19 @@ Language: the firm says any language is welcome; C++ is an advantage for enginee
 Missing edge cases (self-loops, empty input, duplicates) · DFS where BFS is needed for shortest paths ·
 floats for prices · coding before pinning down the input contract · shared mutable state with no owner.
 
+## Does the code have to run? (researched 2026-10-19)
+Yes. "Working" means it runs and is correct on real input, not "nearly done".
+- **Official (Citadel Securities, experienced-engineer onsite):** one problem in four stages (requirements and design →
+  implementation → code review → extend under new constraints). On implementation: they care "whether it works,
+  whether someone else could read and extend it and if the abstractions you chose in the design hold up once they
+  meet real input." (The page blocks direct fetch; quoted via search snippet.)
+- **Live coding rounds (CoderPad, 45 min, interviewer present):** expected to produce "a working, optimal solution
+  within the time budget while talking through the reasoning" (aggregator). CoderPad runs code, so test it there.
+- **HackerRank OA:** auto-graded on ~12 hidden tests per problem; "partial credit is uncommon"; conceptually right
+  but failing edge cases or time limits is treated as incorrect (aggregators, multiple candidate reports).
+- Implication: drill to *runs and passes edge cases*, and in the onsite format design and code are the **same** problem,
+  so the design must survive being implemented.
+
 ## Sources
 - https://www.glassdoor.com/Interview/Citadel-Securities-Software-Engineer-Interview-Questions-EI_IE1443495.0,18_KO19,36.htm
 - https://leetcode.com/discuss/interview-experience/5565531/Citadel-or-Senior-Software-Engineer-or-Reject/
@@ -47,3 +60,6 @@ floats for prices · coding before pinning down the input contract · shared mut
 - https://prachub.com/interview-guide/citadel-securities-software-engineer-interview-questions-guide-2026
 - https://dataford.io/interview-guides/citadel-securities/software-engineer
 - https://www.quantt.co.uk/resources/citadel-interview
+- https://www.citadelsecurities.com/careers/career-perspectives/our-engineering-interview-process/
+- https://spacecomplexity.ai/blog/citadel-onsite-interview
+- https://oavoservice.com/en/articles/citadel-oa-question-types-experiences-2026

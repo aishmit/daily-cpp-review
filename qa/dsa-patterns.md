@@ -27,3 +27,35 @@ or `''.join(sorted(w))` (O(k log k)). Edge cases: empty strings (all group toget
 negatives, self-loops), (3) the brute force and its complexity, (4) the optimized approach and its
 complexity. Then code it, then trace 2 cases by hand, including an edge case.
 </details>
+
+### Q: Group Anagrams with the sorted-word key: what's the complexity? Name your variables.
+`id: dsa-004` · `from: day 002` · `confidence: low` · `last: 2026-10-19 (said "n log n to sort * n = n² log n", mixing word count and word length)` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+Two sizes: n = number of words, k = max word length. Sorting one word is O(k log k); doing it for every
+word is **O(n · k log k)**, plus O(n · k) for the map. A 26-count key makes it O(n · k). The habit: when an
+input has two sizes, give them two letters. Mixing them into one "n" gives a wrong (and scary) answer.
+</details>
+
+### Q: In Python, can a dict (or list) be a dict key? What do you use for a "letter counts" key?
+`id: dsa-005` · `from: day 002` · `confidence: low` · `last: 2026-10-19 (proposed a dict of counts as the key)` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+No: keys must be hashable, and dicts/lists are mutable, so `d[{'a': 1}]` raises
+`TypeError: unhashable type: 'dict'`. Use a tuple: `tuple(counts)` where `counts` is a 26-slot list
+(`counts[ord(c) - ord('a')] += 1`). Building it is O(k); hashing a fixed 26-tuple is O(1).
+Group Anagrams becomes O(n · k).
+</details>
+
+### Q: You push `(price, order)` tuples onto a Python heap. Two orders share a price. What happens, and how do you fix it?
+`id: dsa-006` · `from: day 002` · `confidence: low` · `last: 2026-10-19 (order book: pushed (price, Order) per order)` · `next: day 003`
+
+<details><summary>Answer</summary>
+
+Tuples compare element by element, so a tie on price falls through to comparing the `Order` objects:
+`TypeError: '<' not supported between instances of 'Order' and 'Order'`. Fixes: push a unique
+tie-breaker second, `(price, seq, order)` with an increasing `seq` (also gives FIFO), or for an order
+book push only the *price*, once per new level, and keep the orders in a per-price FIFO.
+</details>

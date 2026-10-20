@@ -6,3 +6,12 @@ __pycache__/
 .vscode/
 .idea/
 compile_commands.json
+
+# compiled scratch output (keep only sources)
+scratch/**
+!scratch/**/
+!scratch/**/*.cpp
+!scratch/**/*.hpp
+!scratch/**/*.py
+!scratch/**/*.md
+*.dSYM/
