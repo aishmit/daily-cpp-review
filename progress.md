@@ -9,9 +9,14 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 - Cadence: Mon–Thu, 60 min (5 recall · 30 DSA · 25 track). No Fri–Sun. Skip US holidays (Thanksgiving Thu Nov 26).
 - Interview language: **Python**. C++ for the debugging round and systems knowledge.
 - Tracks alternate: even days = system design (Python), odd days = C++ & systems.
-- Current session: **002** (Mon 2026-10-19), pre-written; checked by the 2026-10-19 run: stub fails 0/12,
-  a private reference passes 12/12, links verified (LeetCode via search index; direct fetch is blocked
-  by the routine's network policy). Nothing to review: Day 001 is done and has no pending review. The run writes 003 onward.
+- Current session: **003** (Tue 2026-10-20): sliding window (643, 2958) / C++ object lifetime (rule of 0/3/5).
+  Written by the 2026-10-20 run. Stubs fail 14/22 (drill 0/6), a private reference (not committed) passes 22/22
+  with g++ ASan+UBSan and clang++ -O0/-O1/-O2. Links verified via search index (leetcode.com and cppreference
+  can't be fetched directly from the routine). `run.sh` now builds `systems/drill.cpp` too and adds
+  `-fno-builtin` on sanitizer builds (clang otherwise optimizes away new[]/delete[] pairs and breaks the
+  allocation counter in `counting_new.hpp`).
+- Day 002 reviewed 2026-10-20 (`days/002/review.md`): DSA 3/4, design 2/4. Remediation = Day 004 (order book part 2),
+  which must start with the review's fix #1 (validate before mutating).
 - Routine push check: OK (2026-10-15, new Claude Code routine with repo source).
 - Day 001 (Oct 1, vtables) is done. Note from his notes: "this is hard… so far behind"; confidence 1/5.
 
@@ -64,14 +69,15 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 | Object layout: sizeof, padding, alignment | Day 001 Q1: thought member functions occupy object storage (cpp-om-009); no padding model (cpp-om-010) | 2026-10-01 | open |
 | C++ syntax fluency: casts, lambda bodies, struct vs class | Day 001 B1: `return Circle* c = reinterpret_cast<Circle>(s); ...` (declaration after return, cast to value not pointer, dropped const, wrong cast) (cpp-om-012); 2026-10-15: changed struct→class and didn't know why it broke (cpp-om-013); 2026-10-15 LeetCode 121: size_t for a value that goes negative (cpp-om-014) | 2026-10-01 | open |
 | Type erasure: wrapper vs erased object | Day 001 B3: wrote `obj_->area()`, then `vptr_->area(this)` (passed the Shape, not the object); unsure what a deep copy needs (cpp-om-008) | 2026-10-01 | open |
-| Move semantics: what a move does | Day 001 B2: proposed clone+delete as a move; didn't null the source (cpp-ml-001) | 2026-10-01 | open |
+| Move semantics: what a move does | Day 001 B2: proposed clone+delete as a move; didn't null the source (cpp-ml-001); Day 001 notes: thought a throwing move is UB in vector (it copies instead: cpp-ml-002) | 2026-10-01 | open |
 | Complexity analysis with two sizes | Day 002 (49): said "n log n * n = n² log n" for sort-each-word; mixed word count n with word length k (dsa-004); proposed a dict as a dict key — unhashable (dsa-005) | 2026-10-19 | open |
 | Order book: price levels & time priority | Day 002: thought orders are sorted on price only (one heap per side); didn't know what a price level/"back of the level" is; read the diagram as best ask = highest (sd-005) | 2026-10-19 | open |
-| Reading the spec / API contract | Day 002 order book add(): raised exceptions where spec says return False; `< 0` where spec says `<= 0`; never returned True; dupe check only within one price level; looked up the string "order_id" instead of the variable; B branch copy-pasted into asks | 2026-10-19 | open |
+| Reading the spec / API contract | Day 002 order book add(): raised exceptions where spec says return False; `< 0` where spec says `<= 0`; never returned True; dupe check only within one price level; looked up the string "order_id" instead of the variable; B branch copy-pasted into asks; 2026-10-20 review: stores the order in the id map *before* the crossing/side checks, so a rejected id can't be reused (sd-006) | 2026-10-19 | open |
 | Advanced templates | self-reported | 2026-10-01 | open |
 
 ## Day log
 | Day | Date | Systems / C++ topic | Design topic | Attempted? | Score | Notes |
 |---|---|---|---|---|---|---|
-| 002 | 2026-10-19 | Arrays/hashing (121, 49) | Order book (design) | yes, partial (live session) | — | DSA: 121 (C++, 1 hint, Oct 15), 49 (Python, ~9 min, no hints). Design: ~40 min, paused at 1/12 tests; only add() + best_bid/best_ask started. Repeated misses: asks/bids swapped in 3 places, (price, Order) heap tie (3 rounds), reject = return False not raise. Data-model idea was right (price heap + per-price FIFO + id map). Unfinished: fix best_*, cancel, modify, depth, queue. |
+| 003 | 2026-10-20 | Sliding window (643, 2958) · C++ object lifetime, rule of 0/3/5 (Buffer + Level) | — | pending | — | Re-tests Day 001's dtor / operator= / move ctor by hand. 5-min syntax drill (new[]/delete[], std::copy, std::swap, init list, static_cast). |
+| 002 | 2026-10-19 | Arrays/hashing (121, 49) | Order book (design) | yes, partial (live session) | DSA 3 · design 2 | Reviewed 2026-10-20. Hidden bug: rejected order keeps its id. | DSA: 121 (C++, 1 hint, Oct 15), 49 (Python, ~9 min, no hints). Design: ~40 min, paused at 1/12 tests; only add() + best_bid/best_ask started. Repeated misses: asks/bids swapped in 3 places, (price, Order) heap tie (3 rounds), reject = return False not raise. Data-model idea was right (price heap + per-price FIFO + id map). Unfinished: fix best_*, cancel, modify, depth, queue. |
 | 001 | 2026-10-01 | Virtual functions & vtables | Order book: requirements & core ops | systems: yes (live session) | — | Live session: wrote Part A, B1 tables, B3 dispatch, clone, copy ctor himself (many hints). Tutor wrote move ctor (asked twice), copy-and-swap operator=, destroy slots + ~Shape (asked twice). Re-test him on destroy/~Shape/operator= by hand on Day 003 (plan restarted; Day 002 is a design day). |

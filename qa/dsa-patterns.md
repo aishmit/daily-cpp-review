@@ -59,3 +59,16 @@ Tuples compare element by element, so a tie on price falls through to comparing 
 tie-breaker second, `(price, seq, order)` with an increasing `seq` (also gives FIFO), or for an order
 book push only the *price*, once per new level, and keep the orders in a per-price FIFO.
 </details>
+
+### Q: When does a variable-size sliding window work, and why is it O(n) when there's a `while` loop inside the `for`?
+`id: dsa-007` · `from: day 003` · `confidence: low` · `last: —` · `next: day 004`
+
+<details><summary>Answer</summary>
+
+It works when the condition is **monotone in the window**: if a window is valid, every sub-window is valid
+too (e.g. "every count ≤ k", "sum ≤ S with non-negative numbers"). Then when adding `right` breaks the
+condition, moving `left` forward is the only way to repair it, and you never need to move `left` back.
+O(n): `right` moves n times and `left` moves at most n times *in total* across the whole run (amortized), so
+each element enters and leaves the window once. It fails with negative numbers for sum conditions
+(shrinking can make the sum bigger). Use prefix sums + a hash map there.
+</details>

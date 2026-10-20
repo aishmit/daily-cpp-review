@@ -21,8 +21,8 @@ if [[ "$what" != design && -d "$dir/systems" ]]; then
   echo "=== systems ($dir/systems) — $CXX, sanitizers: $SAN ==="
   mkdir -p build
   flags=(-std=c++20 -Wall -Wextra -Wpedantic -g -I common -I "$dir/systems")
-  if [[ "$SAN" == none ]]; then flags+=(-O2 -DNDEBUG); else flags+=(-O1 -fno-omit-frame-pointer "-fsanitize=$SAN"); fi
-  for src in "$dir"/systems/test_*.cpp; do
+  if [[ "$SAN" == none ]]; then flags+=(-O2 -DNDEBUG); else flags+=(-O1 -fno-omit-frame-pointer -fno-builtin "-fsanitize=$SAN"); fi
+  for src in "$dir"/systems/drill.cpp "$dir"/systems/test_*.cpp; do
     [[ -e "$src" ]] || continue
     bin="build/day${day}_$(basename "${src%.cpp}")"
     echo "--- $(basename "$src")"

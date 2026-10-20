@@ -51,3 +51,13 @@ the level. "Back of the level" = the end of that queue. Example: bids at 99 = [#
 modify #1 up to 20 → [#5, #1 (20)]. Data model: per side, price → FIFO of orders, plus a way to find the
 best price; and a map order_id → (side, price, qty) for cancel/modify.
 </details>
+
+### Q: Your `add(order)` stores the order in the id map, then checks whether it crosses and rejects it. What breaks?
+`id: sd-006` · `from: day 002 review` · `confidence: low` · `last: 2026-10-20 (review: orderbook.py line 51 runs before the checks at 54/65/74)` · `next: day 004`
+
+<details><summary>Answer</summary>
+
+The rejected order still occupies its id, so a later valid `add` with that id is rejected as a duplicate (and
+`cancel(id)` would "find" an order that isn't resting). Rule: **validate everything, then mutate**. No state
+change until every check has passed. Hidden-test graders (the Citadel OA) probe exactly this: reject, then reuse.
+</details>
