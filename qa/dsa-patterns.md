@@ -29,7 +29,7 @@ complexity. Then code it, then trace 2 cases by hand, including an edge case.
 </details>
 
 ### Q: Group Anagrams with the sorted-word key: what's the complexity? Name your variables.
-`id: dsa-004` · `from: day 002` · `confidence: low` · `last: 2026-10-19 (said "n log n to sort * n = n² log n", mixing word count and word length)` · `next: day 003`
+`id: dsa-004` · `from: day 002` · `confidence: low` · `last: 2026-10-21 recall: said O(n log k); dropped the k factor again` · `next: day 006`
 
 <details><summary>Answer</summary>
 

@@ -140,7 +140,7 @@ polymorphic type and checks at runtime; it can't start from `void*`.
 </details>
 
 ### Q: What's the difference between `struct` and `class` in C++?
-`id: cpp-om-013` · `from: day 001 (asked 2026-10-15)` · `confidence: low` · `last: 2026-10-15 (switched struct→class, hit "deleted function '~Dog'")` · `next: day 003`
+`id: cpp-om-013` · `from: day 001 (asked 2026-10-15)` · `confidence: med` · `last: 2026-10-21 recall: mostly right; missed default public inheritance` · `next: day 010`
 
 <details><summary>Answer</summary>
 
@@ -152,7 +152,7 @@ so `Animal* a = &dog;` won't compile. Convention: `struct` for plain data, `clas
 </details>
 
 ### Q: `int x = -6; size_t y = 0;` What does `x > y` evaluate to, and why? How do you avoid it?
-`id: cpp-om-014` · `from: day 002 (LeetCode 121, 2026-10-15)` · `confidence: low` · `last: 2026-10-15 (used size_t for profit; -6 became 18446744073709551610)` · `next: day 003`
+`id: cpp-om-014` · `from: day 002 (LeetCode 121, 2026-10-15)` · `confidence: low` · `last: 2026-10-21 recall: knew it wraps; said max_int−6, didn't say x>y is true or the fix` · `next: day 007`
 
 <details><summary>Answer</summary>
 
