@@ -21,6 +21,7 @@ When the screen date is known, the daily run compresses this plan so a mock land
 ## Week by week
 
 Day 001 (Oct 1, done): virtual dispatch & vtables, from the earlier HRT-focused plan. The new plan starts at Day 002 on Mon Oct 19.
+**Dates live in the Schedule in `progress.md`** (shifted one session on Oct 20: Day 003's C++ block got its own session). Session numbers below are unchanged.
 
 | Wk | Sessions | DSA pattern (LeetCode) | Design (even) | C++ & systems (odd) |
 |---|---|---|---|---|
