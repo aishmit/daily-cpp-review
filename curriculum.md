@@ -1,40 +1,78 @@
-# Curriculum — Citadel Securities SWE prep · 8 weeks · Mon–Thu · 60 min/session
+# Curriculum — Citadel Securities SWE prep · Mon–Fri · 60 min/session · paced by checkpoints
 
-**Target:** pass Citadel Securities technical screens and superday (experienced SWE, ~6 YOE).
-Built from public 2025–2026 interview reports (see `research/citadel-securities.md`).
-**Problems come from `research/question-bank.md`** (A = runnable design+code, B = C++/systems,
-C = talk-through design, D = LeetCode list). Runnable design problems get **two** design sessions.
-**Coding language for interviews: Python.** C++ is studied for the debugging round and
-systems questions, not for writing interview solutions.
+**Target:** pass Citadel Securities technical screens and superday (experienced SWE).
+**Interview language: Python.** C++ is for the debugging round and systems questions.
+Problems come from `research/question-bank.md` (A = runnable design + code, B = C++/systems,
+C = talk-through design, D = LeetCode list). Dates live in the **Schedule** in `progress.md`.
+
+## Principles (redesigned 2026-10-21 with him)
+- **He schedules the interview when he's ready.** The plan advances by **checkpoints**, not a deadline.
+  No cramming. If he asks to speed up (a real date appears), switch to *speed-up mode* below.
+- **One heavy block per session**, sized to ~60 min of *his* real pace (he works full-time).
+- **Retrieval practice:** every session opens with recall from memory (`qa/`), not re-reading.
+- **Spacing:** topics come back after days and weeks (`qa/` spacing; Thursday interleaving; Friday mixed quizzes).
+- **Interleaving:** practice days and quizzes mix in older patterns, so he learns to *recognise* the pattern,
+  which is the step interviews test.
+- **Worked example first, then fading help** (his C++ syntax gap): see it once, do it with scaffolding, then without.
+- **Learn untimed, then practice timed.** Speed comes after understanding (Mon untimed → Thu timed → Fri quiz).
 
 ## Every session (60 min)
+| Min | What |
+|---|---|
+| 5 | **Recall:** 3 due questions from `qa/`, answered from memory in `notes.md` |
+| 45 | **One main block** (by weekday, below) |
+| 10 | **Error log:** one line per mistake in `notes.md` ("swapped asks/bids", "said n² log n"). Feeds weak areas. |
 
-| Block | Min | What |
+## The week
+| Day | Block | Shape |
 |---|---|---|
-| Warm-up recall | 5 | 3 questions from `qa/` (spaced repetition) |
-| **DSA** | 30 | 1–2 LeetCode problems (Python, timed), picked from this week's pattern. Log them in `notes.md`. |
-| **Track block** | 25 | **Even sessions → System design** (`design/`, Python). **Odd sessions → C++ & systems** (`systems/`, C++). Normally that's Mon/Wed vs Tue/Thu. |
+| **Mon** | **DSA: learn** | New pattern. 10-min worked example (the template, when to recognise it), then 1–2 problems **untimed**. |
+| **Tue** | **C++ & systems** | Concept → 5-min "C++ by hand" syntax drill → one small challenge (one TODO = one concept, tests per TODO). Debugging drills on their weeks. |
+| **Wed** | **Design** | A §A runnable item (part 1 this week, part 2 next week after a 5-min recap; each part ends at a stated test count) **or** a §C talk-through (written design: diagram, data model, hot path, trade-offs). |
+| **Thu** | **DSA: practice** | Monday's pattern **timed** (25 min, no hints) + 1 problem from an older pattern (interleaving). |
+| **Fri** | **Quiz** (30–40 min, lighter) | Timed and graded, no hints, no new material: 1 mixed-pattern Medium (25 min) + 10 rapid-fire recall. Every 2nd quiz adds one behavioral story (2 min). **Every 4th quiz is a mock screen** (45 min CoderPad-style). |
 
-Split ≈ DSA 50% · Design 25% · C++/systems 25%. Every 4th session adds a 5-min behavioral story (in `notes.md`).
-When the screen date is known, the daily run compresses this plan so a mock lands 3–4 days before it.
+US holidays and Fri–Sun of holiday weeks are off. The schedule is written ~8 weeks ahead; the daily run
+extends it a week at a time, adjusting from quiz results and checkpoints.
 
-## Week by week
+## Pattern sequence (one per week; Mon learn → Thu practice → Fri quiz mixes it with older ones)
+Done: arrays/hashing (121, 49), sliding window (643, 2958). Then: stacks & monotonic stack/deque → heaps
+(top-K, k-way merge, running median) → intervals + binary search → BFS (grids, Word Ladder) → graphs
+(topo sort, union-find) → weighted graphs (Dijkstra, Bellman-Ford, currency conversion) → DP 1-D →
+DP 2-D + tries → design-style (LRU/LFU). Problems: question bank §D, Citadel-tagged first.
 
-Day 001 (Oct 1, done): virtual dispatch & vtables, from the earlier HRT-focused plan. The new plan starts at Day 002 on Mon Oct 19.
-**Dates live in the Schedule in `progress.md`** (shifted one session on Oct 20: Day 003's C++ block got its own session). Session numbers below are unchanged.
+## C++ sequence (Tue)
+Move semantics → smart-pointer internals → STL internals → **debugging drill #1** → threads + producer-consumer
+→ atomics & memory ordering → lock-free SPSC ring buffer → caches / branch prediction / "make it fast" →
+debugging drill #2 (data races, TSan) → virtual memory, networking basics. (Bank §B.)
 
-| Wk | Sessions | DSA pattern (LeetCode) | Design (even) | C++ & systems (odd) |
-|---|---|---|---|---|
-| 1 | 002–005 | Arrays/hashing, sliding window, "stock" patterns | 002 Interview framework + order book (price-time, cancel) · 004 Order book part 2 (finish to 12/12). Matching engine with heaps moved to wk 2 (two sessions) | 003 Object lifetime by hand: ctors/dtors, RAII, rule of 0/3/5 (re-test Day 001's destroy / `~Shape` / `operator=`) · 005 Move semantics, value categories |
-| 2 | 006–009 | Stacks, monotonic stack/deque, heaps (top-K, k-way merge, median of stream) | 006 + 008 **Matching engine** (A2), part 1 / part 2 | 007 `unique_ptr` vs `shared_ptr` internals (control block, atomic refcount) · 009 STL internals: `vector` growth, iterator invalidation, `unordered_map` |
-| 3 | 010–013 | Intervals, binary search, BFS/shortest path (Word Ladder family) | 010 Conflating quote queue (A5) · 012 Streaming stats: VWAP + rolling window max/mean (A6) | 011 **C++ debugging drill #1** (dangling refs, UB, overflow, missing virtual dtor) · 013 Threads vs processes, context switches, IPC |
-| 4 | 014–017 | Graphs: weighted BFS/DFS (currency conversion), topo sort, Dijkstra | 014 Talk-through: market-data ingestion + feed handler, gaps & recovery (C1) · 016 Remediation (weakest design topic so far) | 015 Mutex + condvar → bounded producer-consumer queue · **017 MOCK SCREEN** (45-min CoderPad DSA + resume deep-dive) |
-| 5 | 018–021 | Bellman-Ford (arbitrage cycle), union-find, tries (autocomplete, trie+heap) | 018 Trade reconciliation library (A10) · 020 Talk-through: real-time risk aggregation + order gateway rate limiting (C3, C6) | 019 Atomics & memory ordering, spinlock · 021 Lock-free SPSC ring buffer |
-| 6 | 022–025 | Dynamic programming: stock buy/sell family, 1-D/2-D DP | 022 K-way merge of tick files (A9) · 024 Talk-through: messaging + log aggregation across colos (C5) | 023 Caches, cache lines, false sharing, branch prediction · 025 Virtual memory: cache miss vs page fault |
-| 7 | 026–029 | Design-style problems: LRU/LFU, time-based KV, hit counter, order book | 026 Talk-through: order book service at ~1M updates/s, failover (C2) · 028 **MOCK DESIGN** (rebuild A1 or A2 end to end in 45 min) | 027 Networking: TCP vs UDP, multicast packet loss, latency spikes · 029 **C++ debugging drill #2** (data races with TSan) |
-| 8 | 030–033 | Mixed timed sets (2 problems / 45 min) | 030 **MOCK SUPERDAY** design round · 032 Remediation (weakest design topic) | 031 Templates essentials, `std::variant`/`std::any` internals, rapid-fire trivia · **033 MOCK SUPERDAY** (coding + systems + behavioral) |
+## Design sequence (Wed)
+Order book (A1, done in parts by Oct 22) → matching engine A2 (2 parts) → C1 market-data talk-through →
+A5 conflating queue → A6 streaming stats (2 parts) → C2 order book at 1M/s → A10 reconciliation (2 parts)
+→ C3/C6 risk + rate limiting → A9 k-way merge of tick files → C5 messaging/logs.
 
-## Behavioral bank (sessions 005, 009, 013…, one story each — STAR, ≤ 2 min spoken)
+## Checkpoints (the daily run tracks these in `progress.md`)
+**① Screen-ready** — tell him it's a good time to ask the recruiter for the screen (usually 2–4 weeks out; keep training).
+- 2 of the last 3 graded quizzes: the Medium solved **≤ 25 min, unaided**, with restatement, input contract and
+  complexity stated before coding, and edge cases traced after.
+- A **mock screen passed** (score ≥ 3/4 on the rubric in `.claude/commands/mock.md`).
+- Core patterns covered (learned + practiced): hashing, sliding window, stack, heap, intervals/binary search, BFS, graphs, DP 1-D.
+
+**② Superday-ready** — tell him it's a good time to schedule the superday.
+- A1 order book and A2 matching engine built; **one of them rebuilt end to end in 45 min** in a design mock.
+- Three §C talk-throughs scored ≥ 3/4.
+- Two C++ debugging drills scored ≥ 3/4.
+- Four behavioral stories rehearsed (≤ 2 min spoken each).
+
+Design and superday mocks are **triggered by checkpoint progress**, not fixed dates: a design mock once A1+A2
+are built; a full superday mock once ① is met and ② is close.
+
+## Speed-up mode (only when he asks, e.g. a date gets set)
+Drop Wednesday talk-throughs to every other week; Mon and Thu each get 2 problems; quizzes become mock screens
+every other Friday; C++ narrows to the debugging drills and "explain it" answers. Rewrite the Schedule to land a
+final mock 3–4 sessions before the date, and note why in `progress.md`.
+
+## Behavioral bank (one story every 2nd Friday quiz — STAR, ≤ 2 min spoken)
 1. Most complex system you built in the past year: architecture and trade-offs
 2. A production mistake you made and how you resolved it
 3. Isolating the root cause of an ambiguous bug in a critical system

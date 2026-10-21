@@ -1,10 +1,10 @@
 # daily-cpp-review → Citadel Securities prep
 
-A Mon–Thu, 60-minute loop to pass the **Citadel Securities** SWE screens and superday.
+A Mon–Fri, 60-minute loop (Mon DSA learn · Tue C++ · Wed design · Thu DSA timed · Fri quiz) to pass the **Citadel Securities** SWE screens and superday.
 Coding rounds in **Python**; C++ studied for the debugging round and systems questions.
 Plan: `curriculum.md` · What's been asked: `research/citadel-securities.md`.
 
-Every **Mon–Thu at ~6 PM ET** a scheduled Claude run reviews what you pushed, then publishes
+Every **Mon–Fri at ~6 PM ET** a scheduled Claude run reviews what you pushed, then publishes
 (or assigns) that evening's session. Fri–Sun are off.
 
 ## A session = 60 min

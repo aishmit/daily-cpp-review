@@ -37,7 +37,7 @@ show real mechanics (`sizeof`, sanitizer output, assembly, complexity) rather th
 - Design: Python 3.11+, stdlib only, tests via `common/pytest_lite.py`.
 - Systems: C++20, header-only harness `common/check.hpp`.
 - Q&A entries use the format in `qa/README.md`.
-- Day folders `days/NNN/` = session count; sessions run Mon–Thu only.
+- Day folders `days/NNN/` = session count; sessions run Mon–Fri (Fri = quiz or mock). One heavy block per session; he works full-time.
 
 ## Model
 Use Opus with high effort for everything in this repo.
