@@ -61,6 +61,8 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 |---|---|---|---|---|---|
 | 002 (early, Oct 15) | 121. Best Time to Buy and Sell Stock | one pass, running min | — | hint level 1 (/hint) | solved (C++; chose to keep C++ for now rather than redo in Python); size_t profit → -6 wrapped to 1.8e19 (cpp-om-014) |
 | 002 | 49. Group Anagrams | hash map, canonical key | ~9 min | yes, no hints (Python); passes 6 cases incl. [], [""], dupes | Pre-code: picked the sorted-key approach (good) but called it brute force; complexity n²logn (wrong: n·k log k) (dsa-004); contract missed empty list + duplicates |
+| 003 | 643. Maximum Average Subarray I | fixed sliding window, running sum | ~20 min (timer 10) | yes, no hints; correct (edge cases + 500 random vs brute) | Pre-code: brute force right (recompute each window, O(n·k)); dismissed the running sum as "weak" because of division cost (wrong: it removes the k factor, and you divide once at the end) |
+| 003 | 2958. Longest Subarray With at Most K Frequency | variable sliding window + count map | ~20 min (timer 20) | yes, no hints; correct (examples + 1000 random vs brute; n=1e5 in 0.03s) | Approach + amortized O(n) stated before coding; wording needed tightening (max of r−l+1) |
 
 ## Weak areas (drives remediation + recall)
 | Topic | Evidence | First seen | Status |

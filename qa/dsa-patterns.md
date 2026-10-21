@@ -49,8 +49,8 @@ No: keys must be hashable, and dicts/lists are mutable, so `d[{'a': 1}]` raises
 Group Anagrams becomes O(n · k).
 </details>
 
-### Q: You push `(price, order)` tuples onto a Python heap. Two orders share a price. What happens, and how do you fix it?
-`id: dsa-006` · `from: day 002` · `confidence: low` · `last: 2026-10-19 (order book: pushed (price, Order) per order)` · `next: day 003`
+### Q: In Python, `heapq.heappush(heap, (price, order))` where `order` is an instance of your own `Order` class. You push two orders with the same price. What error do you get, why, and how do you fix it?
+`id: dsa-006` · `from: day 002` · `confidence: low` · `last: 2026-10-20 recall: wrong — said value vs reference; didn't connect it to the Day 002 TypeError` · `next: day 004`
 
 <details><summary>Answer</summary>
 

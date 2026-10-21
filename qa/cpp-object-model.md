@@ -115,7 +115,7 @@ sizeof(AB) is 32, not 40.
 </details>
 
 ### Q: `Derived` overrides `Base`'s virtual destructor. When you delete a Derived, does `~Base` still run? So what does `virtual` on a destructor actually buy you?
-`id: cpp-om-011` · `from: day 001` · `confidence: low` · `last: 2026-10-01 (thought override skips ~Base)` · `next: day 002`
+`id: cpp-om-011` · `from: day 001` · `confidence: low` · `last: 2026-10-20 recall: chaining right; didn't say what virtual buys (where delete starts)` · `next: day 004`
 
 <details><summary>Answer</summary>
 

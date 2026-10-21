@@ -1,7 +1,7 @@
 # C++ memory & lifetime — Q&A
 
 ### Q: Write a move constructor for a class that owns a heap object through `void* obj_`. Why not just clone and delete the source?
-`id: cpp-ml-001` · `from: day 001` · `confidence: low` · `last: 2026-10-01 (proposed clone+delete; didn't null the source)` · `next: day 002`
+`id: cpp-ml-001` · `from: day 001` · `confidence: low` · `last: 2026-10-20 recall: idea right; wrote this.obj_ (doesn't compile), no noexcept, fuzzy on why not clone+delete` · `next: day 004`
 
 <details><summary>Answer</summary>
 
