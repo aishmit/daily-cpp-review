@@ -25,8 +25,11 @@ cloning means we are to go and copy the whole object versus just moving its refe
 3.
 vague question. what does this mean. if two orders share a price then we should be pushing the prices by value rather than by reference. price is probably an int or float so this shoulnd't be. aprovlem?
 
+if your copy ctor were Buffer(const Buffer& o) : data_(o.data_), size_(o.size_) {}, which tests in test_2_copy.cpp fail, and what does ASan print when the test ends?
+test 2 in test 2 would fail because shallow copy would effectively be what's happening. my assumption is that o.data_ is likely a pointer array. if we're doing a shallow copy like implied above, then they point to the same addresses and hence line 26 CHECK(b.data() != a.data());   fails
 
-
+test 5:
+doing a std::move on venue means doing a move on the rvalue of it? it seems like it's a temp value from being copied. both tests are failing in that section. not sure if std::move() would do anything to properly move the venue
 
 ---
 Tutor marks (live session, Tue Oct 20):

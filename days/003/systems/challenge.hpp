@@ -22,22 +22,40 @@ public:
     explicit Buffer(std::size_t n) : data_(n ? new int[n]{} : nullptr), size_(n) {}
 
     // TODO(1) destructor: free the array. (One line. Which `delete`?)
-    ~Buffer() {}
+    ~Buffer() { delete[] data_; }
 
     // TODO(2) copy constructor: deep copy. Allocate your own array of other.size_
     // ints and copy the values. Afterwards the two Buffers share nothing.
     // Careful with other.size_ == 0 (keep the invariant).
-    Buffer(const Buffer& other) : data_(nullptr), size_(0) { (void)other; }
+    Buffer(const Buffer& other) {
+        if (other.size_ == 0)
+        {
+            size_ = 0;
+            data_ = nullptr;
+            return;
+        }
+
+        data_ = new int[other.size()];
+        std::copy(other.data(), other.data()+other.size(), data_);
+        size_ = other.size();
+    }
 
     // TODO(3) move constructor: steal other's array, leave `other` empty
     // (data_ == nullptr, size_ == 0). No allocation. Keep it noexcept.
-    Buffer(Buffer&& other) noexcept : data_(nullptr), size_(0) { (void)other; }
+    Buffer(Buffer&& other) noexcept
+    {
+        data_ = nullptr;
+        size_ = 0;
+        std::swap(data_, other.data_);
+        std::swap(size_, other.size_);
+    }
 
     // TODO(4) assignment, copy-and-swap: `other` arrives by value (already a copy,
     // or already moved-from the caller's object). Swap both members with it and
     // return *this. This one function is both copy- and move-assignment.
     Buffer& operator=(Buffer other) noexcept {
-        (void)other;
+        std::swap(data_, other.data_);
+        std::swap(size_, other.size_);
         return *this;
     }
 
@@ -64,8 +82,6 @@ struct Level {
     std::string venue;
 
     Level(int p, std::size_t n, std::string v) : price(p), qtys(n), venue(std::move(v)) {}
-
-    Level(const Level& o) : price(o.price), qtys(o.qtys) {}
 };
 
 }  // namespace day003
