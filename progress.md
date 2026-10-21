@@ -10,6 +10,8 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 - Interview language: **Python**. C++ for the debugging round and systems knowledge.
 - **Current session: 003 (C++ block, Wed Oct 21)**, then 004 order book part 2 (Thu Oct 22), 005 baseline quiz (Fri Oct 23).
   The new weekly rhythm starts Mon Oct 26 (Day 006).
+- Oct 21 run: no new commits since Oct 20; Day 003 C++ stubs verified (compile, drill 0/6, tests fail). 3 Wed warm-up
+  questions added to `days/003/lesson.md` §2 (cpp-om-014, cpp-om-013, dsa-004). Review of 003 follows once he pushes the C++ block.
 - Day 002 reviewed (`days/002/review.md`): DSA 3/4, design 2/4. Day 004 must start with the review's fix #1 (validate before mutating).
 - Routine: "Citadel Securities Prep Daily" (Claude Code routine with the repo as source), 5:54 PM ET, Mon–Fri.
 

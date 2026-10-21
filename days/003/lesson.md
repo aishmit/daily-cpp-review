@@ -45,6 +45,15 @@ Save your solutions as `days/003/dsa/p643.py` and `days/003/dsa/p2958.py` so the
 
 ## 2. C++ & systems (25 min): object lifetime, rule of 0/3/5
 
+> **Wed Oct 21: this block is today's whole session (~45 min, no DSA).** Warm-up first (5 min), answers
+> from memory under `## Warm-up recall (Wed)` in `notes.md`, then check them in `qa/`:
+> 1. `int x = -6; size_t y = 0;` What does `x > y` evaluate to, and why? How do you avoid it? (cpp-om-014)
+> 2. What's the difference between `struct` and `class` in C++? What breaks if you change
+>    `struct Animal { virtual ~Animal() = default; };` to `class`? (cpp-om-013)
+> 3. Group Anagrams with the sorted-word key: what's the complexity? Name your variables. (dsa-004)
+>
+> Then 2.1 → drill 6/6 → TODOs 1–5 in order. Done = `./run.sh 003 sys` all green under ASan+UBSan.
+
 ### 2.1 The concept (5 min read)
 **What the compiler writes for you.** If you don't declare them, a class gets up to five *special members*:
 destructor, copy ctor, copy assignment, move ctor, move assignment. Each generated one works **member by
