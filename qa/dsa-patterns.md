@@ -72,3 +72,13 @@ O(n): `right` moves n times and `left` moves at most n times *in total* across t
 each element enters and leaves the window once. It fails with negative numbers for sum conditions
 (shrinking can make the sum bigger). Use prefix sums + a hash map there.
 </details>
+
+### Q: Maximum average of a length-k window (LeetCode 643): what's the brute force, and why is the running sum better? Where does the division go?
+`id: dsa-008` · `from: day 003 review` · `confidence: low` · `last: 2026-10-20 (pre-code: called the running sum "weak" because of division cost)` · `next: day 005`
+
+<details><summary>Answer</summary>
+
+Brute force: re-sum every window, O(n·k). Running sum: add the element entering, subtract the one leaving,
+O(1) per step → O(n) total, O(1) space. Track the max **sum** and divide once at the end (k is fixed, so the
+max sum is the max average). Division was never the cost; the k factor was.
+</details>

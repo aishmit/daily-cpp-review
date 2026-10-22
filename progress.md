@@ -8,22 +8,23 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 - **Cadence (from 2026-10-21):** Mon–Fri, 60 min, one heavy block per session: Mon DSA learn · Tue C++ · Wed design ·
   Thu DSA practice (timed) · Fri quiz (every 4th = mock screen). He works full-time; never stack two heavy blocks.
 - Interview language: **Python**. C++ for the debugging round and systems knowledge.
-- **Current session: 003 (C++ block, Wed Oct 21)**, then 004 order book part 2 (Thu Oct 22), 005 baseline quiz (Fri Oct 23).
+- **Current session: 004 (Design: order book part 2, Thu Oct 22)**, then 005 baseline quiz (Fri Oct 23).
   The new weekly rhythm starts Mon Oct 26 (Day 006).
-- Oct 21 run: no new commits since Oct 20; Day 003 C++ stubs verified (compile, drill 0/6, tests fail). 3 Wed warm-up
-  questions added to `days/003/lesson.md` §2 (cpp-om-014, cpp-om-013, dsa-004). Review of 003 follows once he pushes the C++ block.
-- Day 002 reviewed (`days/002/review.md`): DSA 3/4, design 2/4. Day 004 must start with the review's fix #1 (validate before mutating).
+- Oct 22 run: Day 003 reviewed (`days/003/review.md`): DSA 3/4, C++ 3/4. Day 004 written: his Day 002 code copied
+  into `days/004/design/`, 16 tests (12 + 4 new); milestones verified against a private reference: 8 → 12 → 16.
+  Starts with the Day 002 design remediation (recap + validate-before-mutate fix).
+- Day 002 reviewed (`days/002/review.md`): DSA 3/4, design 2/4.
 - Routine: "Citadel Securities Prep Daily" (Claude Code routine with the repo as source), 5:54 PM ET, Mon–Fri.
 
 ## Checkpoints (updated by the daily run after each quiz/mock)
 **① Screen-ready:** not met.
 - Graded quizzes (Medium ≤ 25 min, unaided, contract + complexity stated): — (none yet; baseline Fri Oct 23 doesn't count)
 - Mock screen passed (≥ 3/4): —
-- Core patterns learned + practiced: hashing ✔ (49, 121) · sliding window ✔ learned (643, 2958), practice pending ·
+- Core patterns learned + practiced: hashing ✔ (49, 121) · sliding window ✔ learned (643, 2958; reviewed 3/4), practice pending ·
   stack · heap · intervals/binary search · BFS · graphs · DP 1-D
 
 **② Superday-ready:** not met.
-- A1 order book: part 1 done (1/12), part 2 Thu Oct 22 · A2 matching engine: — · rebuilt in 45-min mock: —
+- A1 order book: part 1 done (1/12), part 2 written for Thu Oct 22 (target 16/16) · A2 matching engine: — · rebuilt in 45-min mock: —
 - §C talk-throughs ≥ 3/4: 0/3 · C++ debugging drills ≥ 3/4: 0/2 · behavioral stories rehearsed: 0/4
 
 ## Quiz & mock log
@@ -107,8 +108,8 @@ Thanksgiving Thu–Fri Nov 26–27 off (that week's Thu practice folds into Dec 
 |---|---|---|---|---|---|
 | 002 (early, Oct 15) | 121. Best Time to Buy and Sell Stock | one pass, running min | — | hint level 1 (/hint) | solved (C++; chose to keep C++ for now rather than redo in Python); size_t profit → -6 wrapped to 1.8e19 (cpp-om-014) |
 | 002 | 49. Group Anagrams | hash map, canonical key | ~9 min | yes, no hints (Python); passes 6 cases incl. [], [""], dupes | Pre-code: picked the sorted-key approach (good) but called it brute force; complexity n²logn (wrong: n·k log k) (dsa-004); contract missed empty list + duplicates |
-| 003 | 643. Maximum Average Subarray I | fixed sliding window, running sum | ~20 min (timer 10) | yes, no hints; correct (edge cases + 500 random vs brute) | Pre-code: brute force right (recompute each window, O(n·k)); dismissed the running sum as "weak" because of division cost (wrong: it removes the k factor, and you divide once at the end) |
-| 003 | 2958. Longest Subarray With at Most K Frequency | variable sliding window + count map | ~20 min (timer 20) | yes, no hints; correct (examples + 1000 random vs brute; n=1e5 in 0.03s) | Approach + amortized O(n) stated before coding; wording needed tightening (max of r−l+1) |
+| 003 | 643. Maximum Average Subarray I | fixed sliding window, running sum | ~20 min (timer 10) | yes, no hints; correct (edge cases + 2000 random vs brute) | Pre-code: brute force right (recompute each window, O(n·k)); dismissed the running sum as "weak" because of division cost (wrong: it removes the k factor, and you divide once at the end) (dsa-008). Debug `print` left in (99,997 lines at n=1e5); k clamped twice |
+| 003 | 2958. Longest Subarray With at Most K Frequency | variable sliding window + count map | ~20 min (timer 20) | yes, no hints; correct (examples + 1000 random vs brute; n=1e5 in 0.03s) | Approach + amortized O(n) stated before coding; wording needed tightening (max of r−l+1). Correct only because the contract has k ≥ 1 (k=0 returns n); didn't list k ≥ n / n = 1 before coding |
 
 ## Weak areas (drives remediation + recall)
 | Topic | Evidence | First seen | Status |
@@ -117,16 +118,18 @@ Thanksgiving Thu–Fri Nov 26–27 off (that week's Thu practice folds into Dec 
 | Object layout: sizeof, padding, alignment | Day 001 Q1: thought member functions occupy object storage (cpp-om-009); no padding model (cpp-om-010) | 2026-10-01 | open |
 | C++ syntax fluency: casts, lambda bodies, struct vs class | Day 001 B1: `return Circle* c = reinterpret_cast<Circle>(s); ...` (declaration after return, cast to value not pointer, dropped const, wrong cast) (cpp-om-012); 2026-10-15: changed struct→class and didn't know why it broke (cpp-om-013); 2026-10-15 LeetCode 121: size_t for a value that goes negative (cpp-om-014); 2026-10-21: wrote `data_(x);` inside a ctor body (init-list syntax in the body → "called object type int* is not a function"); std::copy args reversed (wrote into the const source) | 2026-10-01 | open |
 | Type erasure: wrapper vs erased object | Day 001 B3: wrote `obj_->area()`, then `vptr_->area(this)` (passed the Shape, not the object); unsure what a deep copy needs (cpp-om-008) | 2026-10-01 | open |
-| Move semantics: what a move does | Day 001 B2: proposed clone+delete as a move; didn't null the source (cpp-ml-001); Day 001 notes: thought a throwing move is UB in vector (it copies instead: cpp-ml-002) | 2026-10-01 | open |
-| Complexity analysis with two sizes | Day 002 (49): said "n log n * n = n² log n" for sort-each-word; mixed word count n with word length k (dsa-004); proposed a dict as a dict key — unhashable (dsa-005) | 2026-10-19 | open |
+| Move semantics: what a move does | Day 001 B2: proposed clone+delete as a move; didn't null the source (cpp-ml-001); Day 001 notes: thought a throwing move is UB in vector (it copies instead: cpp-ml-002); 2026-10-21 TODO 5: didn't know a user-declared copy ctor suppresses the implicit move (needed concept hints; cpp-ml-004). Progress: wrote Buffer's move ctor himself, noexcept, source emptied | 2026-10-01 | open |
+| Complexity analysis with two sizes | Day 002 (49): said "n log n * n = n² log n" for sort-each-word; mixed word count n with word length k (dsa-004); proposed a dict as a dict key — unhashable (dsa-005); 2026-10-20 (643): called the O(n) running sum "weak" because of division (dsa-008); 2026-10-21 recall: dsa-004 slipped back to O(n log k) | 2026-10-19 | open |
 | Order book: price levels & time priority | Day 002: thought orders are sorted on price only (one heap per side); didn't know what a price level/"back of the level" is; read the diagram as best ask = highest (sd-005) | 2026-10-19 | open |
 | Reading the spec / API contract | Day 002 order book add(): raised exceptions where spec says return False; `< 0` where spec says `<= 0`; never returned True; dupe check only within one price level; looked up the string "order_id" instead of the variable; B branch copy-pasted into asks; 2026-10-20 review: stores the order in the id map *before* the crossing/side checks, so a rejected id can't be reused (sd-006) | 2026-10-19 | open |
+| Leaving debug output in submitted code | 2026-10-20 (643): `print(curr_sum)` in the loop, committed as the solution | 2026-10-20 | open |
 | Advanced templates | self-reported | 2026-10-01 | open |
 
 ## Day log
 | Day | Date | Systems / C++ topic | Design topic | Attempted? | Score | Notes |
 |---|---|---|---|---|---|---|
-| 003 | 2026-10-20 | Sliding window (643, 2958) · C++ object lifetime, rule of 0/3/5 (Buffer + Level) | — | pending | — | Re-tests Day 001's dtor / operator= / move ctor by hand. 5-min syntax drill (new[]/delete[], std::copy, std::swap, init list, static_cast). |
-| 003 | 2026-10-21 | C++ block: object lifetime, rule of 0/3/5 | — | yes (live session) | — | ~60–65 min of work (18:00–19:10 ET wall clock, minus a 5–10 min cooking break) vs 45 planned. All green: drill 6/6, TODOs 1–5 (3/3, 3/3, 4/4, 4/4, 2/2) under ASan+UBSan, all written by him (Day 001's destroy/~Shape/operator= gap closed). Slow spots: D1 missing `{}`, D3 end pointer src+2, std::copy args reversed, init-list syntax inside the ctor body, unfinished line breaking every test build. Test 5 needed concept hints (missing member + user-declared copy suppresses move). Warm-up (Wed) skipped. |
+| 004 | 2026-10-22 | — | Order book part 2 (cancel, modify, best with lazy deletion, depth, queue → 16/16) | pending | — | Starts with recap + validate-before-mutate fix (Day 002 design remediation). |
+| 003 | 2026-10-20 | Sliding window (643, 2958) · C++ object lifetime, rule of 0/3/5 (Buffer + Level) | — | yes (DSA Oct 20) | DSA 3 (reviewed Oct 22) | Re-tests Day 001's dtor / operator= / move ctor by hand. 5-min syntax drill (new[]/delete[], std::copy, std::swap, init list, static_cast). |
+| 003 | 2026-10-21 | C++ block: object lifetime, rule of 0/3/5 | — | yes (live session) | C++ 3 (reviewed Oct 22) | ~60–65 min of work (18:00–19:10 ET wall clock, minus a 5–10 min cooking break) vs 45 planned. All green: drill 6/6, TODOs 1–5 (3/3, 3/3, 4/4, 4/4, 2/2) under ASan+UBSan, all written by him (Day 001's destroy/~Shape/operator= gap closed). Slow spots: D1 missing `{}`, D3 end pointer src+2, std::copy args reversed, init-list syntax inside the ctor body, unfinished line breaking every test build. Test 5 needed concept hints (missing member + user-declared copy suppresses move). Warm-up (Wed) skipped. |
 | 002 | 2026-10-19 | Arrays/hashing (121, 49) | Order book (design) | yes, partial (live session) | DSA 3 · design 2 | Reviewed 2026-10-20. Hidden bug: rejected order keeps its id. | DSA: 121 (C++, 1 hint, Oct 15), 49 (Python, ~9 min, no hints). Design: ~40 min, paused at 1/12 tests; only add() + best_bid/best_ask started. Repeated misses: asks/bids swapped in 3 places, (price, Order) heap tie (3 rounds), reject = return False not raise. Data-model idea was right (price heap + per-price FIFO + id map). Unfinished: fix best_*, cancel, modify, depth, queue. |
 | 001 | 2026-10-01 | Virtual functions & vtables | Order book: requirements & core ops | systems: yes (live session) | — | Live session: wrote Part A, B1 tables, B3 dispatch, clone, copy ctor himself (many hints). Tutor wrote move ctor (asked twice), copy-and-swap operator=, destroy slots + ~Shape (asked twice). Re-test him on destroy/~Shape/operator= by hand on Day 003 (plan restarted; Day 002 is a design day). |
