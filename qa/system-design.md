@@ -41,7 +41,7 @@ In an implementation, an increase = remove + append to the tail of the level.
 </details>
 
 ### Q: What is a "price level" in an order book, and what does "moves to the back of its price level" mean?
-`id: sd-005` · `from: day 002` · `confidence: low` · `last: 2026-10-19 (thought the book was sorted on price only; didn't know what "back of a level" meant); asked in Day 004 warm-up` · `next: day 004`
+`id: sd-005` · `from: day 002` · `confidence: low` · `last: 2026-10-22 recall: definition right; example mixed two prices and said a reduce moves to the back` · `next: day 008`
 
 <details><summary>Answer</summary>
 

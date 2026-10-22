@@ -36,7 +36,7 @@ ctor plus copy assignment), or own the int through a RAII member and write nothi
 </details>
 
 ### Q: State the rules of 3, 5 and 0. Which declarations stop the compiler from generating the move operations?
-`id: cpp-ml-004` · `from: day 003` · `confidence: low` · `last: 2026-10-21 (TODO 5: needed concept hints on why a user-declared copy ctor broke the move test)` · `next: day 004`
+`id: cpp-ml-004` · `from: day 003` · `confidence: low` · `last: 2026-10-22 recall: rules right; didn't say which declarations suppress the moves` · `next: day 007`
 
 <details><summary>Answer</summary>
 

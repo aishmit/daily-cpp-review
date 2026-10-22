@@ -50,7 +50,7 @@ Group Anagrams becomes O(n · k).
 </details>
 
 ### Q: In Python, `heapq.heappush(heap, (price, order))` where `order` is an instance of your own `Order` class. You push two orders with the same price. What error do you get, why, and how do you fix it?
-`id: dsa-006` · `from: day 002` · `confidence: low` · `last: 2026-10-20 recall: wrong — said value vs reference; didn't connect it to the Day 002 TypeError` · `next: day 004`
+`id: dsa-006` · `from: day 002` · `confidence: low` · `last: 2026-10-22 recall: fix right; cause wrong (said 'key already used', not tuple comparison falling through to Order)` · `next: day 009`
 
 <details><summary>Answer</summary>
 
