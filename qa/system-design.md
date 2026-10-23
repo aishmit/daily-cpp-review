@@ -53,7 +53,7 @@ best price; and a map order_id → (side, price, qty) for cancel/modify.
 </details>
 
 ### Q: Your `add(order)` stores the order in the id map, then checks whether it crosses and rejects it. What breaks?
-`id: sd-006` · `from: day 002 review` · `confidence: low` · `last: 2026-10-20 (review: orderbook.py line 51 runs before the checks at 54/65/74)` · `next: day 004`
+`id: sd-006` · `from: day 002 review` · `confidence: med` · `last: 2026-10-22 recap: found the line, traced both calls, fixed it (validate, then mutate)` · `next: day 008`
 
 <details><summary>Answer</summary>
 
@@ -92,4 +92,35 @@ Cancel dominates real feeds (most orders never trade), and it's O(1) here.
 Dicts keep insertion order, so `order = level.pop(oid); level[oid] = order` moves it to the back in O(1).
 A quantity increase loses time priority (otherwise you could park a tiny order at the front and size it up
 later); a decrease keeps its place, so it's just `order.qty = new_qty`.
+</details>
+
+### Q: Your `best_bid()` skips stale heap prices by calling itself again. What breaks after a burst of cancels in Python, and what do you write instead?
+`id: sd-010` · `from: day 004 review` · `confidence: low` · `last: 2026-10-23 (review: 3,000 cancelled levels → RecursionError)` · `next: day 006`
+
+<details><summary>Answer</summary>
+
+Each stale price costs one recursive call; Python's default limit is about 1,000 frames, so ~1,000 cancelled
+levels at the top raise `RecursionError`. Use a loop:
+`while heap and -heap[0] not in levels: heapq.heappop(heap)`, then `return -heap[0] if heap else None`.
+Python has no tail-call optimisation: never recurse to skip items.
+</details>
+
+### Q: You implement "modify up" as cancel + add. The answers are right. What still goes wrong with a heap of prices, and what's the O(1) fix?
+`id: sd-011` · `from: day 004 review` · `confidence: low` · `last: 2026-10-23 (review: 1,000 modifies → heap of 1,001 copies of one price)` · `next: day 006`
+
+<details><summary>Answer</summary>
+
+If the order is alone at its price, cancel empties the level and add pushes the price into the heap again; the old
+copy is never popped while the level is alive, so the heap grows by one per modify (a memory leak under real
+traffic). Fix: stay in the level: `level.pop(oid)`, set `qty`, `level[oid] = order`. No heap touch.
+</details>
+
+### Q: A method returns `True`/`False` for success, and you call it inside another method without checking the result. When is that acceptable?
+`id: sd-012` · `from: day 004 review` · `confidence: low` · `last: 2026-10-23 (review: modify ignores add()'s return)` · `next: day 006`
+
+<details><summary>Answer</summary>
+
+Only when you can prove it can't fail on that path, and you say so in a comment. Otherwise a failure is
+silently lost: here `modify` would return True while the order vanished from the book. Interviewers read an
+ignored return value as a missed error path.
 </details>

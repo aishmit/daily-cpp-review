@@ -8,8 +8,12 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
 - **Cadence (from 2026-10-21):** Mon–Fri, 60 min, one heavy block per session: Mon DSA learn · Tue C++ · Wed design ·
   Thu DSA practice (timed) · Fri quiz (every 4th = mock screen). He works full-time; never stack two heavy blocks.
 - Interview language: **Python**. C++ for the debugging round and systems knowledge.
-- **Current session: 004 (Design: order book part 2, Thu Oct 22)**, then 005 baseline quiz (Fri Oct 23).
-  The new weekly rhythm starts Mon Oct 26 (Day 006).
+- **Current session: 005 (Baseline quiz, Fri Oct 23: LeetCode 438 timed + 10 rapid recall)**, then 006 DSA learn
+  (stack & monotonic stack/deque, Mon Oct 26), the first week of the new rhythm.
+- Oct 23 run: Day 004 reviewed (`days/004/review.md`): design 3/4, A1 built 16/16. Two scale bugs left for him:
+  recursive `best_*` → RecursionError after ~1,000 cancels; modify-up via cancel+add grows the heap forever.
+  Day 005 quiz written (438 verified against a private reference + 3,000 random cases vs brute force). Schedule
+  extended to Wed Dec 23.
 - Oct 22 run: Day 003 reviewed (`days/003/review.md`): DSA 3/4, C++ 3/4. Day 004 written: his Day 002 code copied
   into `days/004/design/`, 16 tests (12 + 4 new); milestones verified against a private reference: 8 → 12 → 16.
   Starts with the Day 002 design remediation (recap + validate-before-mutate fix).
@@ -24,7 +28,7 @@ Updated by the daily run (and by Claude Code sessions when you struggle). Newest
   stack · heap · intervals/binary search · BFS · graphs · DP 1-D
 
 **② Superday-ready:** not met.
-- A1 order book: part 1 done (1/12), part 2 written for Thu Oct 22 (target 16/16) · A2 matching engine: — · rebuilt in 45-min mock: —
+- A1 order book: **built** (16/16, Oct 22; review 3/4, two scale bugs open) · A2 matching engine: — · rebuilt in 45-min mock: —
 - §C talk-throughs ≥ 3/4: 0/3 · C++ debugging drills ≥ 3/4: 0/2 · behavioral stories rehearsed: 0/4
 
 ## Quiz & mock log
@@ -41,7 +45,7 @@ Thanksgiving Thu–Fri Nov 26–27 off (that week's Thu practice folds into Dec 
 | 002 | Mon Oct 19 | DSA + Design | 121, 49 · order book part 1 (done, reviewed) |
 | 003 | Tue Oct 20 | DSA | Sliding window: 643, 2958 (done) |
 | 003 | Wed Oct 21 | C++ | **Day 003 §2 (already written):** object lifetime, rule of 0/3/5. No DSA. Don't write a new day; send a short reminder. |
-| 004 | Thu Oct 22 | Design | **Order book part 2** (cancel, modify, depth, queue → 12/12). Fix the review's bug #1 first (validate before mutating). |
+| 004 | Thu Oct 22 | Design | **Order book part 2** (cancel, modify, depth, queue → 12/12). Fix the review's bug #1 first (validate before mutating). (done, 16/16, reviewed 3/4) |
 | 005 | Fri Oct 23 | Quiz | **Baseline quiz** (optional, ungraded for checkpoints): 1 timed Medium (25 min, mixed: hashing/sliding window) + 10 rapid recall. |
 | 006 | Mon Oct 26 | DSA learn | Stack & monotonic stack/deque — worked example, 1–2 problems untimed |
 | 007 | Tue Oct 27 | C++ | Move semantics & value categories (re-test Day 003) |
@@ -81,6 +85,9 @@ Thanksgiving Thu–Fri Nov 26–27 off (that week's Thu practice folds into Dec 
 | 041 | Wed Dec 16 | Design | **A10** trade reconciliation — part 1 |
 | 042 | Thu Dec 17 | DSA practice | DP 2-D + tries (1268 search suggestions) — timed 25 min + 1 interleaved older pattern |
 | 043 | Fri Dec 18 | Quiz | Timed: 1 mixed-pattern Medium (25 min) + 10 rapid recall |
+| 044 | Mon Dec 21 | DSA learn | Design-style: LRU / LFU cache (146, 460) — worked example, 1–2 problems untimed |
+| 045 | Tue Dec 22 | C++ | **C++ debugging drill #2** (data races, TSan) |
+| 046 | Wed Dec 23 | Design | **A10** trade reconciliation — part 2 (5-min recap first) |
 
 ## Calibration notes for the daily run (read before writing the next day)
 - **2026-10-01, Day 001 live session:** level is below what Day 001 assumed. Concepts (vtable/vptr,
@@ -123,17 +130,17 @@ Thanksgiving Thu–Fri Nov 26–27 off (that week's Thu practice folds into Dec 
 | Type erasure: wrapper vs erased object | Day 001 B3: wrote `obj_->area()`, then `vptr_->area(this)` (passed the Shape, not the object); unsure what a deep copy needs (cpp-om-008) | 2026-10-01 | open |
 | Move semantics: what a move does | Day 001 B2: proposed clone+delete as a move; didn't null the source (cpp-ml-001); Day 001 notes: thought a throwing move is UB in vector (it copies instead: cpp-ml-002); 2026-10-21 TODO 5: didn't know a user-declared copy ctor suppresses the implicit move (needed concept hints; cpp-ml-004). Progress: wrote Buffer's move ctor himself, noexcept, source emptied | 2026-10-01 | open |
 | Complexity analysis with two sizes | Day 002 (49): said "n log n * n = n² log n" for sort-each-word; mixed word count n with word length k (dsa-004); proposed a dict as a dict key — unhashable (dsa-005); 2026-10-20 (643): called the O(n) running sum "weak" because of division (dsa-008); 2026-10-21 recall: dsa-004 slipped back to O(n log k) | 2026-10-19 | open |
-| Order book: price levels & time priority | Day 002: thought orders are sorted on price only (one heap per side); didn't know what a price level/"back of the level" is; read the diagram as best ask = highest (sd-005) | 2026-10-19 | open |
-| Reading the spec / API contract | Day 002 order book add(): raised exceptions where spec says return False; `< 0` where spec says `<= 0`; never returned True; dupe check only within one price level; looked up the string "order_id" instead of the variable; B branch copy-pasted into asks; 2026-10-20 review: stores the order in the id map *before* the crossing/side checks, so a rejected id can't be reused (sd-006) | 2026-10-19 | open |
+| Order book: price levels & time priority | Day 002: thought orders are sorted on price only (one heap per side); didn't know what a price level/"back of the level" is; read the diagram as best ask = highest (sd-005); 2026-10-22: tried depth prices from the heap (unordered, stale); recap example mixed two prices. 2026-10-23 review: recursive lazy deletion → RecursionError after ~1,000 cancels (sd-010); modify-up via cancel+add grows the heap without bound (sd-011); ignores add()'s return (sd-012). Progress: built 16/16 himself | 2026-10-19 | open |
+| Reading the spec / API contract | Day 002 order book add(): raised exceptions where spec says return False; `< 0` where spec says `<= 0`; never returned True; dupe check only within one price level; looked up the string "order_id" instead of the variable; B branch copy-pasted into asks; 2026-10-20 review: stores the order in the id map *before* the crossing/side checks, so a rejected id can't be reused (sd-006). Progress 2026-10-22: found and fixed it himself (validate, then mutate) | 2026-10-19 | open |
 | Leaving debug output in submitted code | 2026-10-20 (643): `print(curr_sum)` in the loop, committed as the solution | 2026-10-20 | open |
 | Advanced templates | self-reported | 2026-10-01 | open |
 
 ## Day log
 | Day | Date | Systems / C++ topic | Design topic | Attempted? | Score | Notes |
 |---|---|---|---|---|---|---|
-| 004 | 2026-10-22 | — | Order book part 2 (cancel, modify, best with lazy deletion, depth, queue → 16/16) | pending | — | Starts with recap + validate-before-mutate fix (Day 002 design remediation). |
+| 005 | 2026-10-23 | — | — | pending | — | Baseline quiz: 438 (timed 25) + 10 rapid recall. Doesn't count toward checkpoint ①. |
 | 003 | 2026-10-20 | Sliding window (643, 2958) · C++ object lifetime, rule of 0/3/5 (Buffer + Level) | — | yes (DSA Oct 20) | DSA 3 (reviewed Oct 22) | Re-tests Day 001's dtor / operator= / move ctor by hand. 5-min syntax drill (new[]/delete[], std::copy, std::swap, init list, static_cast). |
-| 004 | 2026-10-22 | — | Order book part 2 (A1) | yes (live session) | — | **16/16**, no debug prints. Fixed validate-before-mutate, Order stored in levels, lazy removal in best_*, depth from sorted dict keys (heap list is unordered + stale/duplicate prices), modify. Coding ~8:45–10:00 PM (~75 min) after a dinner break; warm-up and recap questions earlier. Tired at the end. Struggled with: lesson wording (fixed: plain-language rule), 'post-only' rule without a why, depth-from-heap, spec phrase '(use cancel)' read as 'call cancel'. Asked good design questions (heap vs std::map vs price-indexed array, floats vs ticks). |
+| 004 | 2026-10-22 | — | Order book part 2 (A1) | yes (live session) | design 3 (reviewed Oct 23) | **16/16**, no debug prints. Fixed validate-before-mutate, Order stored in levels, lazy removal in best_*, depth from sorted dict keys (heap list is unordered + stale/duplicate prices), modify. Coding ~8:45–10:00 PM (~75 min) after a dinner break; warm-up and recap questions earlier. Tired at the end. Struggled with: lesson wording (fixed: plain-language rule), 'post-only' rule without a why, depth-from-heap, spec phrase '(use cancel)' read as 'call cancel'. Asked good design questions (heap vs std::map vs price-indexed array, floats vs ticks). |
 | 003 | 2026-10-21 | C++ block: object lifetime, rule of 0/3/5 | — | yes (live session) | C++ 3 (reviewed Oct 22) | ~60–65 min of work (18:00–19:10 ET wall clock, minus a 5–10 min cooking break) vs 45 planned. All green: drill 6/6, TODOs 1–5 (3/3, 3/3, 4/4, 4/4, 2/2) under ASan+UBSan, all written by him (Day 001's destroy/~Shape/operator= gap closed). Slow spots: D1 missing `{}`, D3 end pointer src+2, std::copy args reversed, init-list syntax inside the ctor body, unfinished line breaking every test build. Test 5 needed concept hints (missing member + user-declared copy suppresses move). Warm-up (Wed) skipped. |
 | 002 | 2026-10-19 | Arrays/hashing (121, 49) | Order book (design) | yes, partial (live session) | DSA 3 · design 2 | Reviewed 2026-10-20. Hidden bug: rejected order keeps its id. | DSA: 121 (C++, 1 hint, Oct 15), 49 (Python, ~9 min, no hints). Design: ~40 min, paused at 1/12 tests; only add() + best_bid/best_ask started. Repeated misses: asks/bids swapped in 3 places, (price, Order) heap tie (3 rounds), reject = return False not raise. Data-model idea was right (price heap + per-price FIFO + id map). Unfinished: fix best_*, cancel, modify, depth, queue. |
 | 001 | 2026-10-01 | Virtual functions & vtables | Order book: requirements & core ops | systems: yes (live session) | — | Live session: wrote Part A, B1 tables, B3 dispatch, clone, copy ctor himself (many hints). Tutor wrote move ctor (asked twice), copy-and-swap operator=, destroy slots + ~Shape (asked twice). Re-test him on destroy/~Shape/operator= by hand on Day 003 (plan restarted; Day 002 is a design day). |
