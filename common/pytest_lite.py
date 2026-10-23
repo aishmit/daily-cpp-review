@@ -22,9 +22,15 @@ def run(paths):
                 getattr(mod, name)()
                 passed += 1
                 print(f"[ OK ] {name}")
-            except Exception:
+            except Exception as e:
                 print(f"[FAIL] {name}")
-                print("    " + traceback.format_exc().strip().splitlines()[-1])
+                frames = traceback.extract_tb(e.__traceback__)
+                # Where it failed: the line in the test file, then (if different) the line that raised.
+                in_test = [f for f in frames if Path(f.filename).resolve() == path]
+                shown = ([in_test[-1]] if in_test else []) + ([frames[-1]] if frames and (not in_test or frames[-1] is not in_test[-1]) else [])
+                for f in shown:
+                    print(f"    {Path(f.filename).name}:{f.lineno}: {f.line}")
+                print(f"    {type(e).__name__}{': ' + str(e) if str(e) else ''}")
         sys.path.pop(0)
     print(f"\n{passed}/{total} tests passed")
     return 0 if passed == total else 1
